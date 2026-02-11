@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Doublebook — Demo</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📅</text></svg>" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;700&display=swap" />
+    <link rel="stylesheet" href="demo.css" />
+    <script crossorigin="anonymous" defer src="https://kit.fontawesome.com/46660cdeff.js"></script>
+    <script defer src="demo.js"></script>
+  </head>
+  <body>
+    <header>
+      <div class="logo"><i class="fa-solid fa-calendar-range"></i> Doublebook</div>
+      <nav>
+        <a data-tab="tasks" class="active">Tasks</a>
+        <a data-tab="agents">Agents</a>
+      </nav>
+      <div class="fill"></div>
+      <button class="btn-outline" id="new-smart"><i class="fa-solid fa-plus"></i> Smart Task</button>
+      <button id="new-task"><i class="fa-solid fa-plus"></i> Basic Task</button>
+    </header>
+    <main>
+      <div id="tasks" class="tab-view active">
+        <div id="workspace">
+          <div id="task-area">
+            <div id="task-cols">
+              <div class="task-col">
+                <div class="day-header">
+                  <div class="day-label">Today</div>
+                  <div class="day-date" id="today-date"></div>
+                </div>
+                <textarea id="today-tasks" placeholder="What needs to get done today?"></textarea>
+              </div>
+              <div class="task-col">
+                <div class="day-header">
+                  <div class="day-label">Tomorrow</div>
+                  <div class="day-date" id="tomorrow-date"></div>
+                </div>
+                <textarea id="tomorrow-tasks" placeholder="What about tomorrow?"></textarea>
+              </div>
+            </div>
+            <button id="schedule-toggle"><i class="fa-solid fa-chevron-right"></i> Schedule</button>
+            <div id="schedule-view" class="hidden">
+              <div id="schedule-cols"></div>
+            </div>
+          </div>
+          <div id="jenny-col">
+            <div id="jenny-profile">
+              <img id="jenny-avatar" src="https://i.pravatar.cc/200?u=jenny@doublebook.me" alt="Jenny" />
+              <div>
+                <div id="jenny-name">Jenny</div>
+                <div id="jenny-title">Executive Assistant</div>
+              </div>
+            </div>
+            <div id="chat-messages">
+              <div class="chat-msg jenny">Hi! I'm Jenny, your executive assistant. Tell me what you need done and I'll take care of it.</div>
+            </div>
+            <div id="chat-input-wrap">
+              <textarea id="chat-input" placeholder="Message Jenny..." rows="1"></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="agents" class="tab-view">
+        <p class="empty">Agents coming soon</p>
+      </div>
+    </main>
+    <div id="backdrop" class="hidden"></div>
+    <div id="detail" class="hidden">
+      <div class="detail-row" id="detail-header">
+        <div id="countdown"></div>
+        <button class="icon-btn" id="edit-schedule"><i class="fa-solid fa-pen"></i></button>
+      </div>
+      <div id="schedule-opts" class="hidden">
+        <label>Start time <input type="time" id="opt-time" /></label>
+        <label>Repeat
+          <select id="opt-repeat">
+            <option>Every day</option>
+            <option>Every weekday</option>
+            <option>Every Tuesday</option>
+            <option>Every 2 days</option>
+            <option>Custom</option>
+          </select>
+        </label>
+        <label>When
+          <select id="opt-when">
+            <option>Earliest available minute</option>
+            <option>During business hours</option>
+            <option>After hours</option>
+          </select>
+        </label>
+        <label id="opt-custom-wrap" class="hidden">Custom
+          <input type="text" id="opt-custom" placeholder="Type or say anything to customize..." />
+        </label>
+      </div>
+      <div id="basic-view">
+        <div class="detail-row" id="input-toggle">
+          <button class="toggle-btn active" data-input="question">Question</button>
+          <button class="toggle-btn" data-input="prompt">Prompt</button>
+        </div>
+        <div id="input-wrap">
+          <textarea id="task-input" placeholder="What would you like done?" rows="3"></textarea>
+          <button class="icon-btn" id="mic-btn"><i class="fa-solid fa-microphone"></i></button>
+        </div>
+      </div>
+      <div id="smart-view" class="hidden">
+        <div id="smart-template">
+          <i class="fa-solid fa-lock"></i>
+          <div>
+            <div>Confirm all showings for tomorrow</div>
+            <span class="fine">Requires calendar connection</span>
+          </div>
+        </div>
+      </div>
+      <div class="detail-row" id="agent-row">
+        <span>Assigned to</span>
+        <button class="agent-btn">Jenny <i class="fa-solid fa-chevron-down"></i></button>
+      </div>
+      <div id="workflow">
+        <h4>Workflow</h4>
+        <div id="workflow-status">Will be generated as soon as task is described</div>
+        <div id="workflow-steps" class="hidden"></div>
+        <button id="workflow-customize-btn" class="hidden">Customize workflow</button>
+        <textarea id="workflow-custom" placeholder="Describe how you want the work done, which APIs, etc." rows="2" class="hidden"></textarea>
+      </div>
+      <div class="detail-row" id="detail-actions">
+        <button class="btn-outline" id="test-btn">Test Workflow</button>
+        <button id="delete-btn">Delete task</button>
+        <div class="fill"></div>
+        <button id="save-btn"><i class="fa-solid fa-check"></i> Save</button>
+      </div>
+    </div>
+  </body>
+</html>
