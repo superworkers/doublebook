@@ -20,6 +20,17 @@
       <div class="layer-inset row">
         <div class="logo"><i class="fa-solid fa-calendar-range"></i> Doublebook</div>
         <div class="fill"></div>
+        <div class="menu" id="features-menu">
+          <button aria-expanded="false" aria-haspopup="true" class="menu-button" id="features-button" type="button">Features</button>
+          <div class="menu-panel" id="features-panel">
+            <a href="/assistant/">Assistant</a>
+            <a href="/realtorbatch/">RealtorBatch AI</a>
+            <a href="/social/">Social</a>
+            <a href="/notc/">NoTC</a>
+            <a href="/closeflow/">CloseFlow</a>
+            <a href="/tasks/">Tasks</a>
+          </div>
+        </div>
         <a class="button" href="/demo">Start free trial</a>
       </div>
     </header>
@@ -120,5 +131,19 @@
         <p>&copy; 2026</p>
       </div>
     </footer>
+    <script>
+      const button = document.getElementById('features-button');
+      const menu = document.getElementById('features-menu');
+      if (button && menu) {
+        const close = () => (button.setAttribute('aria-expanded', 'false'), menu.classList.remove('open'));
+        button.addEventListener('click', () => {
+          const open = button.getAttribute('aria-expanded') === 'true';
+          button.setAttribute('aria-expanded', String(!open));
+          menu.classList.toggle('open', !open);
+        });
+        document.addEventListener('click', e => !menu.contains(e.target) && close());
+        document.addEventListener('keydown', e => e.key === 'Escape' && close());
+      }
+    </script>
   </body>
 </html>
