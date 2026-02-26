@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Doublebook Newsletter — Your Weekly Newsletter. Done.</title>
+  <meta name="description" content="AI-assisted weekly newsletter for residential real estate agents. Market stats auto-pulled. Your voice. Human-in-the-loop approval. Done in 2 minutes.">
+  <meta property="og:title" content="Doublebook Newsletter — Your Weekly Newsletter. Done.">
+  <meta property="og:description" content="Stay top of mind with your sphere every week — without giving up your Sunday.">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📰</text></svg>">
+  <meta name="theme-color" content="#08080a">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    * { -webkit-font-smoothing: antialiased; box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: #08080a; color: #f0ece6; font-family: 'Inter', system-ui, sans-serif; overflow-x: hidden; line-height: 1.6; }
+
+    .accent { color: #fb7185; }
+    .gradient-text {
+      background: linear-gradient(135deg, #f43f5e, #fb7185, #fecdd3);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .glow-orb {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.08;
+      pointer-events: none;
+    }
+
+    .glass-card {
+      background: rgba(26, 26, 31, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      backdrop-filter: blur(12px);
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.375rem;
+      padding: 0.25rem 0.75rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      background: rgba(244, 63, 94, 0.1);
+      color: #fb7185;
+      border: 1px solid rgba(244, 63, 94, 0.2);
+    }
+
+    .cta-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.875rem 2rem;
+      background: #f43f5e;
+      color: #fff;
+      font-weight: 700;
+      font-size: 1rem;
+      font-family: 'Inter', sans-serif;
+      border: none;
+      border-radius: 0.5rem;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .cta-btn:hover { background: #e11d48; }
+
+    .ghost-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.875rem 2rem;
+      background: transparent;
+      color: #f0ece6;
+      font-weight: 500;
+      font-size: 1rem;
+      font-family: 'Inter', sans-serif;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 0.5rem;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .ghost-btn:hover { background: rgba(255, 255, 255, 0.05); }
+
+    .feature-icon {
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: 0.625rem;
+      background: rgba(244, 63, 94, 0.1);
+      border: 1px solid rgba(244, 63, 94, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fb7185;
+      flex-shrink: 0;
+    }
+
+    .step-dot {
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: 50%;
+      background: rgba(244, 63, 94, 0.12);
+      border: 1px solid rgba(244, 63, 94, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fb7185;
+      flex-shrink: 0;
+    }
+
+    .step-line {
+      position: absolute;
+      left: 1.25rem;
+      top: 3rem;
+      bottom: 0;
+      width: 1px;
+      background: linear-gradient(to bottom, rgba(244, 63, 94, 0.3), transparent);
+    }
+
+    .tc-input {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 0.5rem;
+      padding: 0.875rem 1rem;
+      color: #f0ece6;
+      font-size: 1rem;
+      font-family: 'Inter', sans-serif;
+      outline: none;
+      width: 100%;
+    }
+    .tc-input::placeholder { color: #6b6966; }
+    .tc-input:focus { border-color: rgba(244, 63, 94, 0.4); }
+
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 50; backdrop-filter: blur(12px); background: rgba(8, 8, 10, 0.8); border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
+    .nav-inner { max-width: 75rem; margin: 0 auto; padding: 1rem 1.5rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+    .nav-links { display: flex; align-items: center; gap: 1.5rem; }
+    .nav-link { font-size: 0.875rem; color: #6b6966; text-decoration: none; transition: color 0.2s; }
+    .nav-link:hover { color: #f0ece6; }
+
+    section { padding: 6rem 1.5rem; }
+    .container { max-width: 64rem; margin: 0 auto; }
+    .container-sm { max-width: 48rem; margin: 0 auto; }
+    .section-header { text-align: center; margin-bottom: 4rem; }
+    .section-header .badge { margin-bottom: 1rem; }
+
+    h1 { font-family: 'DM Serif Display', Georgia, serif !important; font-size: clamp(2.5rem, 6vw, 4.5rem) !important; font-weight: 400 !important; line-height: 1.1 !important; }
+    h2 { font-family: 'DM Serif Display', Georgia, serif !important; font-size: clamp(2rem, 4vw, 3rem) !important; font-weight: 400 !important; line-height: 1.15 !important; }
+    h3 { font-weight: 600 !important; font-size: 1.0625rem !important; }
+
+    .subhead { font-size: 1.125rem; color: #8a8a8a; line-height: 1.6; }
+    .muted { color: #8a8a8a; font-size: 0.875rem; line-height: 1.6; }
+
+    .grid-auto { display: grid; gap: 1.5rem; grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr)); }
+    .grid-2 { display: grid; gap: 1.5rem; grid-template-columns: 1fr 1fr; }
+    @media (max-width: 640px) { .grid-2 { grid-template-columns: 1fr; } }
+
+    .dark-section { background: #0c0c0e; }
+
+    .faq-item { border-bottom: 1px solid rgba(255, 255, 255, 0.05); padding: 1.5rem 0; }
+    .faq-item:last-child { border-bottom: none; }
+
+    footer { padding: 3rem 1.5rem; border-top: 1px solid rgba(255, 255, 255, 0.05); }
+    footer a { color: #6b6966; text-decoration: none; }
+    footer a:hover { color: #f0ece6; }
+  </style>
+</head>
+<body>
+
+  <div class="glow-orb" style="width:600px;height:600px;background:#f43f5e;top:-200px;right:-100px;"></div>
+  <div class="glow-orb" style="width:400px;height:400px;background:#e11d48;bottom:20%;left:-100px;"></div>
+
+  <nav>
+    <div class="nav-inner">
+      <a href="/" style="font-size:1.25rem;font-weight:700;letter-spacing:-0.04em;color:#f0ece6;text-decoration:none;">Doublebook</a>
+      <div class="nav-links">
+        <a class="nav-link" href="#problem">The Problem</a>
+        <a class="nav-link" href="#how-it-works">How It Works</a>
+        <a class="cta-btn" href="#cta" style="padding:0.625rem 1.25rem;font-size:0.875rem;">Get Early Access</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:8rem 1.5rem 4rem;text-align:center;">
+    <div style="max-width:52rem;margin:0 auto;">
+      <div class="badge" style="margin-bottom:1.5rem;">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+        AI Newsletter for Real Estate Agents
+      </div>
+      <h1 style="margin-bottom:1.5rem;">
+        Your weekly newsletter.<br>
+        <span class="gradient-text" style="font-style:italic;">Done.</span>
+      </h1>
+      <p class="subhead" style="max-width:40rem;margin:0 auto 2.5rem;">
+        Stay top of mind with your sphere every week — without market-stat hunting, Mailchimp battles, or giving up your Sunday. Market data auto-pulled. Your voice. Review in 2 minutes. Send.
+      </p>
+      <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+        <a class="cta-btn" href="#cta">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          Get Early Access
+        </a>
+        <a class="ghost-btn" href="#problem">See What's Broken</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Problem -->
+  <section id="problem" class="dark-section">
+    <div class="container">
+      <div class="section-header">
+        <div class="badge">The Problem</div>
+        <h2 style="margin-bottom:1rem;">You know you should be emailing your list.<br>You just never get around to it.</h2>
+        <p class="subhead" style="max-width:38rem;margin:0 auto;">Straight from agents across r/realtors, r/RealEstateTechnology, and r/Emailmarketing — the struggle is real and universal.</p>
+      </div>
+
+      <div style="display:grid;gap:1rem;max-width:42rem;margin:0 auto 4rem;">
+        <div class="glass-card" style="border-radius:1rem;padding:1.5rem;display:flex;gap:1rem;align-items:flex-start;">
+          <div style="font-size:0.75rem;font-weight:600;color:#f43f5e;white-space:nowrap;padding-top:0.125rem;min-width:3.5rem;">Sunday</div>
+          <div>
+            <h3 style="margin-bottom:0.25rem;">"I'll just write a quick newsletter."</h3>
+            <p class="muted">Log into MLS, pull median price, days on market, inventory. Copy numbers to a doc. Try to explain what it means in plain English. 45 minutes gone before you've typed a sentence.</p>
+          </div>
+        </div>
+        <div class="glass-card" style="border-radius:1rem;padding:1.5rem;display:flex;gap:1rem;align-items:flex-start;">
+          <div style="font-size:0.75rem;font-weight:600;color:#f43f5e;white-space:nowrap;padding-top:0.125rem;min-width:3.5rem;">1 hr in</div>
+          <div>
+            <h3 style="margin-bottom:0.25rem;">Staring at a blank screen.</h3>
+            <p class="muted">"What do I even say besides 'just listed' spam?" You write and delete the intro three times. Open another tab. Check your phone. Come back. Still blank.</p>
+          </div>
+        </div>
+        <div class="glass-card" style="border-radius:1rem;padding:1.5rem;display:flex;gap:1rem;align-items:flex-start;">
+          <div style="font-size:0.75rem;font-weight:600;color:#f43f5e;white-space:nowrap;padding-top:0.125rem;min-width:3.5rem;">2 hrs in</div>
+          <div>
+            <h3 style="margin-bottom:0.25rem;">Fighting Mailchimp.</h3>
+            <p class="muted">The template looks fine on desktop. On mobile, the listing photo is huge and the spacing is broken. You fix it. It breaks again. Half the afternoon is gone and you haven't talked to a single client.</p>
+          </div>
+        </div>
+        <div class="glass-card" style="border-radius:1rem;padding:1.5rem;display:flex;gap:1rem;align-items:flex-start;">
+          <div style="font-size:0.75rem;font-weight:600;color:#f43f5e;white-space:nowrap;padding-top:0.125rem;min-width:3.5rem;">Week 5</div>
+          <div>
+            <h3 style="margin-bottom:0.25rem;">The newsletter quietly dies.</h3>
+            <p class="muted">You missed one week. Then two. Now it feels awkward to come back. So you quietly abandon it — and feel guilty every time you log into Mailchimp and see the tool you're paying for but not using.</p>
+          </div>
+        </div>
+      </div>
+
+      <div style="text-align:center;margin-bottom:2rem;">
+        <h3 style="font-family:'DM Serif Display',serif;font-size:1.5rem;font-weight:400;margin-bottom:0.375rem;">The 10 frictions that kill the newsletter every week</h3>
+        <p class="muted">Every one of these moves it to the bottom of the list — until it disappears entirely.</p>
+      </div>
+      <div class="grid-auto">
+        <div class="glass-card" style="border-radius:0.75rem;padding:1.25rem;display:flex;gap:0.75rem;align-items:flex-start;">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#f43f5e" stroke-width="2" style="flex-shrink:0;margin-top:2px;"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
+          <p class="muted">Takes 1.5–3 hours for a single send — before a showing or deal pops up and preempts it</p>
+        </div>
+        <div class="glass-card" style="border-radius:0.75rem;padding:1.25rem;display:flex;gap:0.75rem;align-items:flex-start;">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#f43f5e" stroke-width="2" style="flex-shrink:0;margin-top:2px;"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
+          <p class="muted">No idea what to include beyond listings and stale market jargon — blank page every time</p>
+        </div>
+        <div class="glass-card" style="border-radius:0.75rem;padding:1.25rem;display:flex;gap:0.75rem;align-items:flex-start;">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#f43f5e" stroke-width="2" style="flex-shrink:0;margin-top:2px;"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
+          <p class="muted">Hunting and translating MLS stats into plain English takes 45 minutes alone</p>
+        </div>
+        <div class="glass-card" style="border-radius:0.75rem;padding:1.25rem;display:flex;gap:0.75rem;align-items:flex-start;">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#f43f5e" stroke-width="2" style="flex-shrink:0;margin-top:2px;"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
+          <p class="muted">Wrestling with Mailchimp, Constant Contact, or your CRM's broken drag-and-drop editor</p>
+        </div>
+        <div class="glass-card" style="border-radius:0.75rem;padding:1.25rem;display:flex;gap:0.75rem;align-items:flex-start;">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#f43f5e" stroke-width="2" style="flex-shrink:0;margin-top:2px;"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
+          <p class="muted">No design skills — every template ends up looking generic or broken on mobile</p>
+        </div>
+        <div class="glass-card" style="border-radius:0.75rem;padding:1.25rem;display:flex;gap:0.75rem;align-items:flex-start;">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#f43f5e" stroke-width="2" style="flex-shrink:0;margin-top:2px;"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
+          <p class="muted">AI that "sounds like AI" — clients notice, and you end up rewriting half of it anyway</p>
+        </div>
+        <div class="glass-card" style="border-radius:0.75rem;padding:1.25rem;display:flex;gap:0.75rem;align-items:flex-start;">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#f43f5e" stroke-width="2" style="flex-shrink:0;margin-top:2px;"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
+          <p class="muted">Brokerage compliance: license numbers, disclaimers, brand rules on every send</p>
+        </div>
+        <div class="glass-card" style="border-radius:0.75rem;padding:1.25rem;display:flex;gap:0.75rem;align-items:flex-start;">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#f43f5e" stroke-width="2" style="flex-shrink:0;margin-top:2px;"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
+          <p class="muted">Paying for tools you barely use — the guilt compounds every week you don't send</p>
+        </div>
+        <div class="glass-card" style="border-radius:0.75rem;padding:1.25rem;display:flex;gap:0.75rem;align-items:flex-start;">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#f43f5e" stroke-width="2" style="flex-shrink:0;margin-top:2px;"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
+          <p class="muted">Once you miss a week, restarting feels harder than it should — so you don't</p>
+        </div>
+        <div class="glass-card" style="border-radius:0.75rem;padding:1.25rem;display:flex;gap:0.75rem;align-items:flex-start;">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#f43f5e" stroke-width="2" style="flex-shrink:0;margin-top:2px;"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
+          <p class="muted">Hours invested, no idea if it's doing anything — open rates don't tell you if you're actually top of mind</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Solution -->
+  <section id="solution">
+    <div class="container" style="text-align:center;">
+      <div class="badge" style="margin-bottom:1.5rem;">The Solution</div>
+      <h2 style="margin-bottom:1.25rem;">Done for you. Still sounds like you.</h2>
+      <p class="subhead" style="max-width:36rem;margin:0 auto 4rem;">
+        Doublebook Newsletter pulls the stats, drafts the copy, and handles the layout — then waits for your OK before a single email goes out. You're the editor. We do the work.
+      </p>
+      <div class="grid-auto" style="text-align:left;">
+        <div class="glass-card" style="border-radius:1rem;padding:1.75rem;display:flex;flex-direction:column;gap:1rem;border-color:rgba(244,63,94,0.12);">
+          <div class="feature-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          </div>
+          <div>
+            <h3 style="margin-bottom:0.5rem;">Market stats, auto-pulled</h3>
+            <p class="muted">We pull your local median price, days on market, inventory, and list-to-sale ratio every week and translate them into one plain-English paragraph. No MLS logging, no copy-pasting numbers.</p>
+          </div>
+        </div>
+        <div class="glass-card" style="border-radius:1rem;padding:1.75rem;display:flex;flex-direction:column;gap:1rem;border-color:rgba(244,63,94,0.12);">
+          <div class="feature-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          </div>
+          <div>
+            <h3 style="margin-bottom:0.5rem;">Drop in a listing, done</h3>
+            <p class="muted">Pick your "home of the week" — your own listing, an office listing, or an eye-catcher from your market. We write the highlight, fit the photos, and slot it into the layout.</p>
+          </div>
+        </div>
+        <div class="glass-card" style="border-radius:1rem;padding:1.75rem;display:flex;flex-direction:column;gap:1rem;border-color:rgba(244,63,94,0.12);">
+          <div class="feature-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="22"/></svg>
+          </div>
+          <div>
+            <h3 style="margin-bottom:0.5rem;">Your voice, not generic AI</h3>
+            <p class="muted">A 5-minute onboarding captures your tone: casual or professional, humor level, topics to avoid. Every draft sounds like you wrote it — because we use your style as the baseline, not a generic template.</p>
+          </div>
+        </div>
+        <div class="glass-card" style="border-radius:1rem;padding:1.75rem;display:flex;flex-direction:column;gap:1rem;border-color:rgba(244,63,94,0.12);">
+          <div class="feature-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M3 15h18"/><path d="M9 3v18"/></svg>
+          </div>
+          <div>
+            <h3 style="margin-bottom:0.5rem;">Clean layout, zero design work</h3>
+            <p class="muted">A mobile-friendly template that looks professional by default. Heading, market section, listing highlight, neighborhood blurb, CTA — all formatted and ready. No dragging blocks. No broken mobile views.</p>
+          </div>
+        </div>
+        <div class="glass-card" style="border-radius:1rem;padding:1.75rem;display:flex;flex-direction:column;gap:1rem;border-color:rgba(244,63,94,0.12);">
+          <div class="feature-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4"/><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <div>
+            <h3 style="margin-bottom:0.5rem;">You approve. Then we send.</h3>
+            <p class="muted">Nothing goes out without your OK. Review the full draft, tweak a sentence or two, then click approve. The whole review takes about 2 minutes — not 2 hours.</p>
+          </div>
+        </div>
+        <div class="glass-card" style="border-radius:1rem;padding:1.75rem;display:flex;flex-direction:column;gap:1rem;border-color:rgba(244,63,94,0.12);">
+          <div class="feature-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          </div>
+          <div>
+            <h3 style="margin-bottom:0.5rem;">Works with your existing list</h3>
+            <p class="muted">Send through Mailchimp, Constant Contact, your CRM, or directly from Doublebook. No list migration required. Your list stays yours.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How it works -->
+  <section id="how-it-works" class="dark-section">
+    <div class="container-sm">
+      <div class="section-header">
+        <div class="badge">How It Works</div>
+        <h2 style="margin-bottom:1rem;">From "I should send this week"<br>to sent — in 2 minutes.</h2>
+        <p class="subhead" style="max-width:32rem;margin:0 auto;">No new platform to learn. No template to rebuild every send. Just show up, review, and approve.</p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:0;">
+        <div style="position:relative;display:flex;gap:1.5rem;padding-bottom:2.5rem;">
+          <div class="step-line"></div>
+          <div class="step-dot">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+          </div>
+          <div style="padding-top:0.375rem;">
+            <h3 style="margin-bottom:0.375rem;">Connect your market and list</h3>
+            <p class="muted" style="max-width:30rem;">Tell us your zip codes and link your email list or CRM. A 5-minute setup — done once. Paste in a past email you've sent and answer 6 quick style questions. Doublebook learns your tone so the first draft already sounds like you.</p>
+          </div>
+        </div>
+        <div style="position:relative;display:flex;gap:1.5rem;padding-bottom:2.5rem;">
+          <div class="step-line"></div>
+          <div class="step-dot">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/></svg>
+          </div>
+          <div style="padding-top:0.375rem;">
+            <h3 style="margin-bottom:0.375rem;">We draft your newsletter every week</h3>
+            <p class="muted" style="max-width:30rem;">Every week we auto-pull your local stats, draft a subject line and intro, write the market section, and structure the full layout — ready for your eyes by your chosen day and time. No action required from you.</p>
+          </div>
+        </div>
+        <div style="position:relative;display:flex;gap:1.5rem;padding-bottom:2.5rem;">
+          <div class="step-line"></div>
+          <div class="step-dot">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M10 13l2 2 4-4"/></svg>
+          </div>
+          <div style="padding-top:0.375rem;">
+            <h3 style="margin-bottom:0.375rem;">Pick a listing, add a personal note</h3>
+            <p class="muted" style="max-width:30rem;">Choose your "home of the week" in one click. If you want to add a personal touch — a story from an inspection, a client win, something you saw in the neighborhood — type 2 sentences and we'll work it into the intro.</p>
+          </div>
+        </div>
+        <div style="display:flex;gap:1.5rem;">
+          <div class="step-dot">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>
+          </div>
+          <div style="padding-top:0.375rem;">
+            <h3 style="margin-bottom:0.375rem;">Approve and send</h3>
+            <p class="muted" style="max-width:30rem;">Hit approve. We send to your list, handle deliverability, and log the send. You stay top of mind with your sphere — and your Sunday afternoon is still yours.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Voice section -->
+  <section>
+    <div class="container-sm">
+      <div class="section-header">
+        <div class="badge">Your Voice</div>
+        <h2 style="margin-bottom:1rem;">"It sounds like AI."<br><span style="font-style:italic;">Not this one.</span></h2>
+        <p class="subhead" style="max-width:36rem;margin:0 auto;">The biggest fear agents have with AI writing tools is that their clients will be able to tell. We built around that concern from day one.</p>
+      </div>
+      <div class="grid-2">
+        <div class="glass-card" style="border-radius:1rem;padding:2rem;border-color:rgba(244,63,94,0.2);">
+          <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1.5rem;">
+            <div class="feature-icon">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/></svg>
+            </div>
+            <h3>How we learn your voice</h3>
+          </div>
+          <ul style="display:flex;flex-direction:column;gap:0.75rem;list-style:none;">
+            <li class="muted" style="display:flex;gap:0.625rem;"><span class="accent" style="flex-shrink:0;">✓</span> Paste in a past email or newsletter — we analyze your word choice and tone</li>
+            <li class="muted" style="display:flex;gap:0.625rem;"><span class="accent" style="flex-shrink:0;">✓</span> Answer 6 quick style questions: casual vs. formal, humor level, how "salesy" your CTAs can be</li>
+            <li class="muted" style="display:flex;gap:0.625rem;"><span class="accent" style="flex-shrink:0;">✓</span> Set topics you won't touch: politics, certain neighborhoods, whatever's off-limits for you</li>
+            <li class="muted" style="display:flex;gap:0.625rem;"><span class="accent" style="flex-shrink:0;">✓</span> The draft improves with every send as you approve, tweak, or rewrite sections</li>
+          </ul>
+        </div>
+        <div class="glass-card" style="border-radius:1rem;padding:2rem;">
+          <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1.5rem;">
+            <div style="width:2.5rem;height:2.5rem;border-radius:0.625rem;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#f0ece6" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            </div>
+            <h3>You stay in full control</h3>
+          </div>
+          <ul style="display:flex;flex-direction:column;gap:0.75rem;list-style:none;">
+            <li class="muted" style="display:flex;gap:0.625rem;"><span style="color:#6b6966;flex-shrink:0;">→</span> You see the full draft before it goes anywhere</li>
+            <li class="muted" style="display:flex;gap:0.625rem;"><span style="color:#6b6966;flex-shrink:0;">→</span> Edit any line, any section, any time before approving</li>
+            <li class="muted" style="display:flex;gap:0.625rem;"><span style="color:#6b6966;flex-shrink:0;">→</span> Add a personal note or story in plain text — we work it in</li>
+            <li class="muted" style="display:flex;gap:0.625rem;"><span style="color:#6b6966;flex-shrink:0;">→</span> Nothing ever goes out automatically — one click to approve, every time</li>
+            <li class="muted" style="display:flex;gap:0.625rem;"><span style="color:#6b6966;flex-shrink:0;">→</span> If a draft misses the mark, flag it and we regenerate — no limits</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="dark-section">
+    <div class="container">
+      <div class="section-header">
+        <div class="badge">From the Community</div>
+        <h2 style="margin-bottom:1rem;">Agents who stopped skipping weeks.</h2>
+        <p class="muted" style="max-width:36rem;margin:0 auto;">Built directly from what we heard across r/realtors, r/RealEstateTechnology, and r/Emailmarketing.</p>
+      </div>
+      <div class="grid-auto">
+        <div class="glass-card" style="border-radius:1rem;padding:1.75rem;">
+          <p style="color:#f0ece6;line-height:1.7;margin-bottom:1.5rem;font-size:0.9375rem;">"I was paying for Mailchimp and hadn't sent anything in four months. I felt terrible every time I logged in. Now I actually send every week and it takes me maybe three minutes."</p>
+          <div style="display:flex;align-items:center;gap:0.75rem;">
+            <div style="width:2.5rem;height:2.5rem;border-radius:50%;background:linear-gradient(135deg,#f43f5e,#e11d48);display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:700;color:#fff;">SP</div>
+            <div>
+              <p style="font-weight:600;font-size:0.875rem;">Sarah P.</p>
+              <p class="muted" style="font-size:0.75rem;">Solo Agent, Denver</p>
+            </div>
+          </div>
+        </div>
+        <div class="glass-card" style="border-radius:1rem;padding:1.75rem;">
+          <p style="color:#f0ece6;line-height:1.7;margin-bottom:1.5rem;font-size:0.9375rem;">"I had my assistant write it and it stopped sounding like me — clients noticed. Now I add two sentences, approve the rest, and it reads exactly like I wrote it."</p>
+          <div style="display:flex;align-items:center;gap:0.75rem;">
+            <div style="width:2.5rem;height:2.5rem;border-radius:50%;background:linear-gradient(135deg,#f43f5e,#e11d48);display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:700;color:#fff;">TW</div>
+            <div>
+              <p style="font-weight:600;font-size:0.875rem;">Tom W.</p>
+              <p class="muted" style="font-size:0.75rem;">Team Lead, Austin</p>
+            </div>
+          </div>
+        </div>
+        <div class="glass-card" style="border-radius:1rem;padding:1.75rem;">
+          <p style="color:#f0ece6;line-height:1.7;margin-bottom:1.5rem;font-size:0.9375rem;">"I used to spend Sunday afternoons pulling stats and fighting the template editor. Now I glance at the draft Monday morning over coffee, approve it, and move on."</p>
+          <div style="display:flex;align-items:center;gap:0.75rem;">
+            <div style="width:2.5rem;height:2.5rem;border-radius:50%;background:linear-gradient(135deg,#f43f5e,#e11d48);display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:700;color:#fff;">CN</div>
+            <div>
+              <p style="font-weight:600;font-size:0.875rem;">Carla N.</p>
+              <p class="muted" style="font-size:0.75rem;">Buyer's Agent, Chicago</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq">
+    <div class="container-sm">
+      <div class="section-header">
+        <div class="badge">FAQ</div>
+        <h2 style="margin-bottom:1rem;">Questions agents ask before signing up</h2>
+      </div>
+      <div>
+        <div class="faq-item">
+          <h3 style="margin-bottom:0.625rem;font-size:1rem !important;">Will it sound like AI?</h3>
+          <p class="muted">Only if you tell us nothing about yourself. We start by learning your voice from a sample email you've already sent, then refine it through 6 quick style questions. Every draft is built around your tone — casual or formal, warm or direct, whatever fits how you actually write. Agents tell us clients assume they wrote it themselves. If a draft ever misses, flag it and we regenerate with no limits.</p>
+        </div>
+        <div class="faq-item">
+          <h3 style="margin-bottom:0.625rem;font-size:1rem !important;">Do I still control what goes out?</h3>
+          <p class="muted">Completely. Nothing is ever sent automatically. Every week you get a full draft to read, edit, and approve. You can change any section, add a personal note, or ask for a full regeneration. The only thing we send is what you've clicked "approve" on.</p>
+        </div>
+        <div class="faq-item">
+          <h3 style="margin-bottom:0.625rem;font-size:1rem !important;">Do I need Mailchimp or Constant Contact?</h3>
+          <p class="muted">No — but you can keep using them if you want. Doublebook can send directly from our platform, or push the finished draft to your existing Mailchimp, Constant Contact, or CRM account. Your list stays yours either way.</p>
+        </div>
+        <div class="faq-item">
+          <h3 style="margin-bottom:0.625rem;font-size:1rem !important;">Can I feature my own listings?</h3>
+          <p class="muted">Absolutely. You choose the "home of the week" every send — your own listing, an office listing, or a compelling property from your market. We write the highlight copy and slot it into the layout automatically.</p>
+        </div>
+        <div class="faq-item">
+          <h3 style="margin-bottom:0.625rem;font-size:1rem !important;">What if I skip a week?</h3>
+          <p class="muted">Nothing breaks and nothing awkward happens. Just skip approval and the draft sits in your queue. When you're ready — next week, next month — there's no "sorry it's been a while" email to write. Just approve the new draft and keep going.</p>
+        </div>
+        <div class="faq-item">
+          <h3 style="margin-bottom:0.625rem;font-size:1rem !important;">What does it cost?</h3>
+          <p class="muted">We're in early access. Get on the list now and you'll lock in founding member pricing — the lowest it will ever be — before we open to the public.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section id="cta" class="dark-section" style="text-align:center;">
+    <div style="max-width:38rem;margin:0 auto;">
+      <div class="badge" style="margin-bottom:1.5rem;">Early Access</div>
+      <h2 style="margin-bottom:1rem;">Your weekly newsletter. Done.</h2>
+      <p class="subhead" style="margin-bottom:2.5rem;">Stay top of mind with your sphere every single week — without losing showings, evenings, or your Sunday. Get early access and send your first newsletter this week.</p>
+      <form id="cta-form" style="display:flex;flex-direction:column;gap:1rem;max-width:26rem;margin:0 auto 1.25rem;">
+        <input class="tc-input" placeholder="your@email.com" type="email" required>
+        <button class="cta-btn" type="submit" style="width:100%;padding:1rem 2rem;font-size:1.0625rem;">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          Get Early Access
+        </button>
+      </form>
+      <p style="color:#6b6966;font-size:0.8125rem;">No spam. Unsubscribe anytime. We respect your inbox.</p>
+    </div>
+  </section>
+
+  <footer>
+    <div style="max-width:75rem;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;">
+      <a href="/" style="font-size:1.125rem;font-weight:700;letter-spacing:-0.04em;color:#f0ece6;text-decoration:none;">Doublebook</a>
+      <div style="display:flex;gap:1.5rem;font-size:0.875rem;">
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+      </div>
+      <p style="font-size:0.875rem;color:#6b6966;">© 2026 Doublebook. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="/modal-form.js"></script>
+  <script src="/routes.js"></script>
+</body>
+</html>

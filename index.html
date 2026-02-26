@@ -1,149 +1,576 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Doublebook — Your Virtual Workforce Starts Here</title>
-    <meta name="description" content="Doublebook helps real estate agents bring clarity to the daily chaos of calls, texts, scheduling, and follow-ups." />
-    <meta property="og:description" content="Doublebook helps real estate agents bring clarity to the daily chaos of calls, texts, scheduling, and follow-ups." />
-    <meta property="og:title" content="Doublebook — Your Virtual Workforce Starts Here" />
-    <meta property="og:type" content="website" />
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📅</text></svg>" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@500;700&display=swap" />
-    <link rel="stylesheet" href="style.css" />
-    <script crossorigin="anonymous" defer src="https://kit.fontawesome.com/46660cdeff.js"></script>
-  </head>
-  <body>
-    <header class="layer">
-      <div class="layer-inset row">
-        <div class="logo"><i class="fa-solid fa-calendar-range"></i> Doublebook</div>
-        <div class="fill"></div>
-        <div class="menu" id="features-menu">
-          <button aria-expanded="false" aria-haspopup="true" class="menu-button" id="features-button" type="button">Features</button>
-          <div class="menu-panel" id="features-panel">
-            <a href="/assistant/">Assistant</a>
-            <a href="/realtorbatch/">RealtorBatch AI</a>
-            <a href="/social/">Social</a>
-            <a href="/notc/">NoTC</a>
-            <a href="/closeflow/">CloseFlow</a>
-            <a href="/tasks/">Tasks</a>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Doublebook — Call Your Agent: Voice Task Capture for Real Estate</title>
+  <meta name="description" content="Speak your tasks naturally. Doublebook turns your voice into an organized Kanban board built for real estate agents on the go.">
+  <meta property="og:title" content="Doublebook — Call Your Agent: Voice Task Capture for Real Estate">
+  <meta property="og:description" content="Speak your tasks naturally. Auto-organized into a Kanban built for agents who never stop moving.">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎙️</text></svg>">
+  <meta name="theme-color" content="#08080a">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    * { -webkit-font-smoothing: antialiased; box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: #08080a; color: #f0ece6; font-family: 'Inter', system-ui, sans-serif; overflow-x: hidden; line-height: 1.6; }
+
+    .accent { color: #a78bfa; }
+    .gradient-text {
+      background: linear-gradient(135deg, #8b5cf6, #a78bfa, #c4b5fd);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .glow-orb {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.1;
+      pointer-events: none;
+    }
+
+    .glass-card {
+      background: rgba(26, 26, 31, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      backdrop-filter: blur(12px);
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.375rem;
+      padding: 0.25rem 0.75rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      background: rgba(139, 92, 246, 0.1);
+      color: #a78bfa;
+      border: 1px solid rgba(139, 92, 246, 0.2);
+    }
+
+    .cta-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.875rem 2rem;
+      background: #8b5cf6;
+      color: #fff;
+      font-weight: 600;
+      font-size: 1rem;
+      font-family: 'Inter', sans-serif;
+      border: none;
+      border-radius: 0.5rem;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .cta-btn:hover { background: #7c3aed; }
+
+    .ghost-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.875rem 2rem;
+      background: transparent;
+      color: #f0ece6;
+      font-weight: 500;
+      font-size: 1rem;
+      font-family: 'Inter', sans-serif;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 0.5rem;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .ghost-btn:hover { background: rgba(255, 255, 255, 0.05); }
+
+    .feature-icon {
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: 0.625rem;
+      background: rgba(139, 92, 246, 0.1);
+      border: 1px solid rgba(139, 92, 246, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #a78bfa;
+      flex-shrink: 0;
+    }
+
+    .step-line {
+      position: absolute;
+      left: 1.25rem;
+      top: 3rem;
+      bottom: 0;
+      width: 1px;
+      background: linear-gradient(to bottom, rgba(139, 92, 246, 0.3), transparent);
+    }
+
+    .step-dot {
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: 50%;
+      background: rgba(139, 92, 246, 0.12);
+      border: 1px solid rgba(139, 92, 246, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #a78bfa;
+      flex-shrink: 0;
+    }
+
+    .wave-bar {
+      display: inline-block;
+      width: 3px;
+      border-radius: 9999px;
+      background: #8b5cf6;
+      opacity: 0.7;
+      animation: wave 1.2s ease-in-out infinite;
+    }
+    @keyframes wave {
+      0%, 100% { transform: scaleY(1); }
+      50% { transform: scaleY(2.2); }
+    }
+
+    .tc-input {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 0.5rem;
+      padding: 0.875rem 1rem;
+      color: #f0ece6;
+      font-size: 1rem;
+      font-family: 'Inter', sans-serif;
+      outline: none;
+      width: 100%;
+    }
+    .tc-input::placeholder { color: #6b6966; }
+    .tc-input:focus { border-color: rgba(139, 92, 246, 0.4); }
+
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 50; backdrop-filter: blur(12px); background: rgba(8, 8, 10, 0.8); border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
+    .nav-inner { max-width: 75rem; margin: 0 auto; padding: 1rem 1.5rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+    .nav-links { display: flex; align-items: center; gap: 1.5rem; }
+    .nav-link { font-size: 0.875rem; color: #6b6966; text-decoration: none; transition: color 0.2s; }
+    .nav-link:hover { color: #f0ece6; }
+
+    section { padding: 6rem 1.5rem; }
+    .container { max-width: 64rem; margin: 0 auto; }
+    .container-sm { max-width: 48rem; margin: 0 auto; }
+    .section-header { text-align: center; margin-bottom: 4rem; }
+    .section-header .badge { margin-bottom: 1rem; }
+
+    h1 { font-family: 'DM Serif Display', Georgia, serif !important; font-size: clamp(2.5rem, 6vw, 4.5rem) !important; font-weight: 400 !important; line-height: 1.1 !important; }
+    h2 { font-family: 'DM Serif Display', Georgia, serif !important; font-size: clamp(2rem, 4vw, 3rem) !important; font-weight: 400 !important; line-height: 1.15 !important; }
+    h3 { font-weight: 600 !important; font-size: 1.0625rem !important; }
+
+    .subhead { font-size: 1.125rem; color: #8a8a8a; line-height: 1.6; }
+    .muted { color: #8a8a8a; font-size: 0.875rem; line-height: 1.6; }
+
+    .grid-auto { display: grid; gap: 1.5rem; grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr)); }
+    .grid-2 { display: grid; gap: 1.5rem; grid-template-columns: 1fr 1fr; }
+    @media (max-width: 640px) { .grid-2 { grid-template-columns: 1fr; } }
+
+    .dark-section { background: #0c0c0e; }
+
+    footer { padding: 3rem 1.5rem; border-top: 1px solid rgba(255, 255, 255, 0.05); }
+    footer a { color: #6b6966; text-decoration: none; }
+    footer a:hover { color: #f0ece6; }
+  </style>
+</head>
+<body>
+
+  <div class="glow-orb" style="width:600px;height:600px;background:#8b5cf6;top:-200px;right:-200px;"></div>
+  <div class="glow-orb" style="width:400px;height:400px;background:#4f46e5;bottom:20%;left:-100px;"></div>
+
+  <nav>
+    <div class="nav-inner">
+      <a href="/" style="font-size:1.25rem;font-weight:700;letter-spacing:-0.04em;color:#f0ece6;text-decoration:none;">Doublebook</a>
+      <div class="nav-links">
+        <a class="nav-link" href="#features">Features</a>
+        <a class="nav-link" href="#how">How It Works</a>
+        <a class="cta-btn" href="#cta" style="padding:0.625rem 1.25rem;font-size:0.875rem;">Get Early Access</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:8rem 1.5rem 4rem;text-align:center;">
+    <div style="max-width:52rem;margin:0 auto;">
+      <div class="badge" style="margin-bottom:1.5rem;">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="22"/></svg>
+        Voice-First Task Capture for Agents
+      </div>
+      <h1 style="margin-bottom:1.5rem;">
+        Call Your Agent.<br>
+        <span class="gradient-text" style="font-style:italic;">Capture Your Day.</span>
+      </h1>
+      <p class="subhead" style="max-width:36rem;margin:0 auto 2.5rem;">
+        Speak your tasks naturally while you drive, walk between showings, or wait in a lobby. Doublebook turns every word into an organized Kanban — built for agents who never stop moving.
+      </p>
+      <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-bottom:4rem;">
+        <a class="cta-btn" href="#cta">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13.4a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2.69h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.18 6.18l1.28-1.84a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92Z"/></svg>
+          Call Your Agent — Get Early Access
+        </a>
+        <a class="ghost-btn" href="#how">See How It Works</a>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:center;gap:4px;height:3rem;">
+        <span class="wave-bar" style="height:8px;animation-delay:0s;"></span>
+        <span class="wave-bar" style="height:20px;animation-delay:0.1s;"></span>
+        <span class="wave-bar" style="height:32px;animation-delay:0.2s;"></span>
+        <span class="wave-bar" style="height:22px;animation-delay:0.3s;"></span>
+        <span class="wave-bar" style="height:40px;animation-delay:0.4s;"></span>
+        <span class="wave-bar" style="height:28px;animation-delay:0.5s;"></span>
+        <span class="wave-bar" style="height:36px;animation-delay:0.6s;"></span>
+        <span class="wave-bar" style="height:18px;animation-delay:0.7s;"></span>
+        <span class="wave-bar" style="height:32px;animation-delay:0.8s;"></span>
+        <span class="wave-bar" style="height:12px;animation-delay:0.9s;"></span>
+        <span class="wave-bar" style="height:26px;animation-delay:1s;"></span>
+        <span class="wave-bar" style="height:16px;animation-delay:0.15s;"></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Problem -->
+  <section class="dark-section">
+    <div class="container">
+      <div class="section-header">
+        <div class="badge">The Problem</div>
+        <h2 style="margin-bottom:1rem;">Your tasks are scattered everywhere.<br>Your follow-ups live in your head.</h2>
+        <p class="subhead" style="max-width:36rem;margin:0 auto;">A day in the life of a real estate agent who hasn't found a better way yet.</p>
+      </div>
+
+      <div style="display:grid;gap:1rem;max-width:42rem;margin:0 auto 4rem;">
+        <div class="glass-card" style="border-radius:1rem;padding:1.5rem;display:flex;gap:1rem;align-items:flex-start;">
+          <div style="font-size:0.75rem;font-weight:600;color:#8b5cf6;white-space:nowrap;padding-top:0.125rem;min-width:3.5rem;">7:00 AM</div>
+          <div>
+            <h3 style="margin-bottom:0.25rem;">Already behind before coffee's done.</h3>
+            <p class="muted">Three unread texts, an email about a showing, and a voicemail from Tuesday you still haven't touched. You jot a sticky note and promise you'll deal with it later.</p>
           </div>
         </div>
-        <a class="button" href="/demo">Start free trial</a>
-      </div>
-    </header>
-
-    <section class="layer" id="hero">
-      <div class="layer-inset">
-        <h1>Your calendar already runs your day. Now it runs your workforce too.</h1>
-        <p>Doublebook is the bridge between you and a virtual workforce that handles the calls, texts, follow-ups, and paperwork you can't get to. No new apps to learn. Just your calendar, your to-do list, and your phone — working harder.</p>
-        <a class="button" href="/demo">Try free for 7 days</a>
-      </div>
-    </section>
-
-    <section class="layer" id="who">
-      <div class="layer-inset">
-        <h2>Built for working agents</h2>
-        <p>You're a full-time buyer or seller agent managing multiple clients, showings, deals, and closings at once. You don't need another platform. You need five fewer things on your plate by noon.</p>
-        <div class="grid">
-          <div class="card">
-            <h4>Multiple deals</h4>
-            <p>Juggling buyers, sellers, and everything in between — every single week.</p>
+        <div class="glass-card" style="border-radius:1rem;padding:1.5rem;display:flex;gap:1rem;align-items:flex-start;">
+          <div style="font-size:0.75rem;font-weight:600;color:#8b5cf6;white-space:nowrap;padding-top:0.125rem;min-width:3.5rem;">11:30 AM</div>
+          <div>
+            <h3 style="margin-bottom:0.25rem;">Driving between showings, promising follow-ups out loud.</h3>
+            <p class="muted">"I'll send you comps tonight." "I'll call the lender." "Remind me about Saturday for the Smiths." Each promise lives in your memory — or doesn't.</p>
           </div>
-          <div class="card">
-            <h4>Calendar-driven</h4>
-            <p>Your day is already structured around showings, calls, and deadlines. We meet you there.</p>
+        </div>
+        <div class="glass-card" style="border-radius:1rem;padding:1.5rem;display:flex;gap:1rem;align-items:flex-start;">
+          <div style="font-size:0.75rem;font-weight:600;color:#8b5cf6;white-space:nowrap;padding-top:0.125rem;min-width:3.5rem;">3:00 PM</div>
+          <div>
+            <h3 style="margin-bottom:0.25rem;">New inquiries while you're mid-showing.</h3>
+            <p class="muted">A lead called. A showing rescheduled. You send a quick "I'll follow up soon" and move on — hoping you actually will.</p>
           </div>
-          <div class="card">
-            <h4>AI-curious, not AI-fluent</h4>
-            <p>You don't need a tutorial. You need proof it works on day one.</p>
+        </div>
+        <div class="glass-card" style="border-radius:1rem;padding:1.5rem;display:flex;gap:1rem;align-items:flex-start;">
+          <div style="font-size:0.75rem;font-weight:600;color:#8b5cf6;white-space:nowrap;padding-top:0.125rem;min-width:3.5rem;">9:45 PM</div>
+          <div>
+            <h3 style="margin-bottom:0.25rem;">The pile you've been avoiding all day.</h3>
+            <p class="muted">Messages, notes, and voicemails stare back at you. Too tired to sort them properly, so some slip — and you'll wonder next week who you forgot to call.</p>
           </div>
         </div>
       </div>
-    </section>
 
-    <section class="layer" id="problem">
-      <div class="layer-inset">
-        <h2>The real problem</h2>
-        <p>Your tools don't talk to each other. Your CRM is a graveyard. Your day is reactive — responding to whatever's loudest instead of what matters most. Every "AI solution" wants you to rebuild your workflow from scratch for a payoff that never comes.</p>
-        <div class="grid">
-          <div class="problem-item">
-            <h4>Fragmented tools</h4>
-            <p>Calendar here, tasks there, texts everywhere. Nothing connects.</p>
+      <div style="text-align:center;margin-bottom:2rem;">
+        <h3 style="font-family:'DM Serif Display',serif;font-size:1.5rem;font-weight:400;margin-bottom:0.375rem;">The frictions that repeat every single day</h3>
+        <p class="muted">Each one costs you leads, referrals, and peace of mind.</p>
+      </div>
+      <div class="grid-auto">
+        <div class="glass-card" style="border-radius:0.75rem;padding:1.25rem;display:flex;gap:0.75rem;align-items:flex-start;">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="2" style="flex-shrink:0;margin-top:2px;"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
+          <p class="muted">Re-typing the same info across texts, the Notes app, and your CRM</p>
+        </div>
+        <div class="glass-card" style="border-radius:0.75rem;padding:1.25rem;display:flex;gap:0.75rem;align-items:flex-start;">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="2" style="flex-shrink:0;margin-top:2px;"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
+          <p class="muted">Scrubbing through voice memos just to find one task you mentioned three days ago</p>
+        </div>
+        <div class="glass-card" style="border-radius:0.75rem;padding:1.25rem;display:flex;gap:0.75rem;align-items:flex-start;">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="2" style="flex-shrink:0;margin-top:2px;"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
+          <p class="muted">Wondering "who do I owe a call?" instead of seeing a clear, prioritized list</p>
+        </div>
+        <div class="glass-card" style="border-radius:0.75rem;padding:1.25rem;display:flex;gap:0.75rem;align-items:flex-start;">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="2" style="flex-shrink:0;margin-top:2px;"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
+          <p class="muted">Trying to update your CRM on your phone — too slow, too many fields, impossible mid-showing</p>
+        </div>
+        <div class="glass-card" style="border-radius:0.75rem;padding:1.25rem;display:flex;gap:0.75rem;align-items:flex-start;">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="2" style="flex-shrink:0;margin-top:2px;"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
+          <p class="muted">Context-switching between leads, active deals, and past clients with no single source of truth</p>
+        </div>
+        <div class="glass-card" style="border-radius:0.75rem;padding:1.25rem;display:flex;gap:0.75rem;align-items:flex-start;">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="2" style="flex-shrink:0;margin-top:2px;"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
+          <p class="muted">Admin work compressed into late nights — and still feeling like something slipped</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Solution -->
+  <section>
+    <div class="container" style="text-align:center;">
+      <div class="badge" style="margin-bottom:1.5rem;">The Solution</div>
+      <h2 style="margin-bottom:1.25rem;">An AI agent that thinks like you talk.</h2>
+      <p class="subhead" style="max-width:36rem;margin:0 auto 4rem;">
+        No new complex system to learn. Just tap a button — or dial a number — and speak naturally. Doublebook is designed around real estate workflows, not generic productivity apps.
+      </p>
+      <div class="grid-2" style="max-width:44rem;margin:0 auto;text-align:left;">
+        <div class="glass-card" style="border-radius:1rem;padding:2rem;border-color:rgba(139,92,246,0.15);">
+          <div style="font-size:2rem;margin-bottom:1rem;">🎙️</div>
+          <h3 style="margin-bottom:0.5rem;">You speak</h3>
+          <p class="muted">Free-form, messy, natural speech. Interruptions, side notes, "oh and also…" — Doublebook keeps up with how you actually think.</p>
+        </div>
+        <div class="glass-card" style="border-radius:1rem;padding:2rem;border-color:rgba(139,92,246,0.15);">
+          <div style="font-size:2rem;margin-bottom:1rem;">📋</div>
+          <h3 style="margin-bottom:0.5rem;">It organizes</h3>
+          <p class="muted">Every task, follow-up, and person mentioned lands in the right lane of your real estate Kanban — tagged with client, property, and priority.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section id="features" class="dark-section">
+    <div class="container">
+      <div class="section-header">
+        <div class="badge">Features</div>
+        <h2 style="margin-bottom:1rem;">Built around how agents actually work</h2>
+        <p class="subhead" style="max-width:34rem;margin:0 auto;">No tutorials. No onboarding. Works from your very first call.</p>
+      </div>
+      <div class="grid-auto">
+        <div class="glass-card" style="border-radius:1rem;padding:1.75rem;display:flex;flex-direction:column;gap:1rem;">
+          <div class="feature-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13.4a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2.69h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.18 6.18l1.28-1.84a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92Z"/></svg>
           </div>
-          <div class="problem-item">
-            <h4>Reactive days</h4>
-            <p>You spend your morning catching up instead of getting ahead.</p>
+          <div>
+            <h3 style="margin-bottom:0.5rem;">"Call Your Agent" Capture</h3>
+            <p class="muted">One tap or a dedicated phone number. Speak naturally: "Call the lender about 42 Oak," "Send comps to Sarah," "Confirm Saturday for the Smiths." Works parked, walking, or waiting in a lobby.</p>
           </div>
-          <div class="problem-item">
-            <h4>Empty promises</h4>
-            <p>Automation that takes weeks to set up and never quite fits how you actually work.</p>
+        </div>
+        <div class="glass-card" style="border-radius:1rem;padding:1.75rem;display:flex;flex-direction:column;gap:1rem;">
+          <div class="feature-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="22"/></svg>
+          </div>
+          <div>
+            <h3 style="margin-bottom:0.5rem;">Free-Form Speech</h3>
+            <p class="muted">No rigid commands or special phrases. Talk the way you think — messy, real-world speech with interruptions, side notes, and stream-of-consciousness. It understands context, not just keywords.</p>
+          </div>
+        </div>
+        <div class="glass-card" style="border-radius:1rem;padding:1.75rem;display:flex;flex-direction:column;gap:1rem;">
+          <div class="feature-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M3 15h18"/><path d="M9 3v18"/></svg>
+          </div>
+          <div>
+            <h3 style="margin-bottom:0.5rem;">Auto-Organized Kanban</h3>
+            <p class="muted">Every spoken note becomes a discrete task, automatically placed into lanes built for real estate: New, Today, This Week, In Escrow, Post-Closing. Tagged with client, property, and timing.</p>
+          </div>
+        </div>
+        <div class="glass-card" style="border-radius:1rem;padding:1.75rem;display:flex;flex-direction:column;gap:1rem;">
+          <div class="feature-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="14" height="20" x="5" y="2" rx="2"/><path d="M12 18h.01"/></svg>
+          </div>
+          <div>
+            <h3 style="margin-bottom:0.5rem;">Mobile-First by Design</h3>
+            <p class="muted">Built for one-hand use. Fast capture from your lock screen or via a phone call. No menus to dig through, no forms to fill. Optimized for the gap between two showings.</p>
+          </div>
+        </div>
+        <div class="glass-card" style="border-radius:1rem;padding:1.75rem;display:flex;flex-direction:column;gap:1rem;">
+          <div class="feature-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+          </div>
+          <div>
+            <h3 style="margin-bottom:0.5rem;">Built for Moment-to-Moment Agents</h3>
+            <p class="muted">Assumes you're on Bluetooth, juggling keys and yard signs, or parked outside a showing. Minimal taps. Maximum clarity. Zero learning curve.</p>
+          </div>
+        </div>
+        <div class="glass-card" style="border-radius:1rem;padding:1.75rem;display:flex;flex-direction:column;gap:1rem;">
+          <div class="feature-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          </div>
+          <div>
+            <h3 style="margin-bottom:0.5rem;">Background CRM Sync</h3>
+            <p class="muted">Approved notes and tasks write back to your CRM automatically. No manual data entry. No double-logging. You review; the AI does the busywork.</p>
           </div>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <section class="layer" id="how">
-      <div class="layer-inset">
-        <h2>How it works</h2>
-        <p>Doublebook starts with what you already know: your calendar and a checklist. In a guided five-minute onboarding, you tell us what your days look like — and we start working.</p>
-        <div class="steps">
-          <div class="step">
-            <div class="step-number">1</div>
+  <!-- AI vs Human -->
+  <section>
+    <div class="container-sm">
+      <div class="section-header">
+        <div class="badge">Division of Labor</div>
+        <h2 style="margin-bottom:1rem;">The AI organizes. You close deals.</h2>
+        <p class="subhead" style="max-width:34rem;margin:0 auto;">Doublebook reduces mental load so you can show up fully for what only you can do.</p>
+      </div>
+      <div class="grid-2">
+        <div class="glass-card" style="border-radius:1rem;padding:2rem;border-color:rgba(139,92,246,0.2);">
+          <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1.5rem;">
+            <div class="feature-icon">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/></svg>
+            </div>
+            <h3>AI handles</h3>
+          </div>
+          <ul style="display:flex;flex-direction:column;gap:0.75rem;list-style:none;">
+            <li class="muted" style="display:flex;gap:0.625rem;"><span class="accent" style="flex-shrink:0;">✓</span> Transcribing speech to clean, structured text</li>
+            <li class="muted" style="display:flex;gap:0.625rem;"><span class="accent" style="flex-shrink:0;">✓</span> Detecting tasks, dates, people, and properties</li>
+            <li class="muted" style="display:flex;gap:0.625rem;"><span class="accent" style="flex-shrink:0;">✓</span> Placing tasks in the right Kanban lane and priority bucket</li>
+            <li class="muted" style="display:flex;gap:0.625rem;"><span class="accent" style="flex-shrink:0;">✓</span> Suggesting follow-up dates based on lead type and urgency</li>
+            <li class="muted" style="display:flex;gap:0.625rem;"><span class="accent" style="flex-shrink:0;">✓</span> Syncing approved notes to your CRM in the background</li>
+          </ul>
+        </div>
+        <div class="glass-card" style="border-radius:1rem;padding:2rem;">
+          <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1.5rem;">
+            <div style="width:2.5rem;height:2.5rem;border-radius:0.625rem;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#f0ece6" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            </div>
+            <h3>You approve &amp; execute</h3>
+          </div>
+          <ul style="display:flex;flex-direction:column;gap:0.75rem;list-style:none;">
+            <li class="muted" style="display:flex;gap:0.625rem;"><span style="color:#6b6966;flex-shrink:0;">→</span> Reviewing, editing, or confirming tasks and due dates</li>
+            <li class="muted" style="display:flex;gap:0.625rem;"><span style="color:#6b6966;flex-shrink:0;">→</span> Choosing how to reach out: call, text, or email</li>
+            <li class="muted" style="display:flex;gap:0.625rem;"><span style="color:#6b6966;flex-shrink:0;">→</span> Approving which notes go into the official CRM record</li>
+            <li class="muted" style="display:flex;gap:0.625rem;"><span style="color:#6b6966;flex-shrink:0;">→</span> Marking tasks done, snoozing, or deleting what's no longer relevant</li>
+            <li class="muted" style="display:flex;gap:0.625rem;"><span style="color:#6b6966;flex-shrink:0;">→</span> Building relationships, negotiating, and making the calls that matter</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How it works -->
+  <section id="how" class="dark-section">
+    <div class="container-sm">
+      <div class="section-header">
+        <div class="badge">How It Works</div>
+        <h2 style="margin-bottom:1rem;">From voice to Kanban in seconds.</h2>
+        <p class="subhead" style="max-width:32rem;margin:0 auto;">No setup. No onboarding wizard. No learning curve. Just speak.</p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:0;">
+        <div style="position:relative;display:flex;gap:1.5rem;padding-bottom:2.5rem;">
+          <div class="step-line"></div>
+          <div class="step-dot">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13.4a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2.69h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.18 6.18l1.28-1.84a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92Z"/></svg>
+          </div>
+          <div style="padding-top:0.375rem;">
+            <h3 style="margin-bottom:0.375rem;">Tap or call</h3>
+            <p class="muted" style="max-width:30rem;">Open the app or dial your Doublebook number. From your lock screen, your Bluetooth, or any lobby — you're one tap from capturing anything.</p>
+          </div>
+        </div>
+        <div style="position:relative;display:flex;gap:1.5rem;padding-bottom:2.5rem;">
+          <div class="step-line"></div>
+          <div class="step-dot">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="22"/></svg>
+          </div>
+          <div style="padding-top:0.375rem;">
+            <h3 style="margin-bottom:0.375rem;">Just talk</h3>
+            <p class="muted" style="max-width:30rem;">Say what's on your mind naturally. "Call the lender about 42 Oak. Send Sarah the comps. Confirm Saturday for the Smiths. Oh and the inspection on Maple — need to reschedule." All of it captured.</p>
+          </div>
+        </div>
+        <div style="position:relative;display:flex;gap:1.5rem;padding-bottom:2.5rem;">
+          <div class="step-line"></div>
+          <div class="step-dot">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/><path d="M20 3v4"/><path d="M22 5h-4"/><path d="M4 17v2"/><path d="M5 18H3"/></svg>
+          </div>
+          <div style="padding-top:0.375rem;">
+            <h3 style="margin-bottom:0.375rem;">AI extracts and organizes</h3>
+            <p class="muted" style="max-width:30rem;">Doublebook parses your speech, identifies tasks, detects clients and properties, assigns priorities, and drops everything into the right Kanban lane automatically.</p>
+          </div>
+        </div>
+        <div style="display:flex;gap:1.5rem;">
+          <div class="step-dot">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>
+          </div>
+          <div style="padding-top:0.375rem;">
+            <h3 style="margin-bottom:0.375rem;">Review, approve, close</h3>
+            <p class="muted" style="max-width:30rem;">Glance at your board anytime. Confirm or tweak tasks. Mark things done. Nothing drops. No sticky notes. No 10 PM scramble trying to piece the day back together.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section>
+    <div class="container">
+      <div class="section-header">
+        <div class="badge">Social Proof</div>
+        <h2 style="margin-bottom:1rem;">Agents who stopped dropping balls.</h2>
+        <p class="muted" style="max-width:36rem;margin:0 auto;">Built from hundreds of conversations with agents tired of sticky notes, Notes app chaos, and voice memo graveyards.</p>
+      </div>
+      <div class="grid-auto">
+        <div class="glass-card" style="border-radius:1rem;padding:1.75rem;">
+          <p style="color:#f0ece6;line-height:1.7;margin-bottom:1.5rem;font-size:0.9375rem;">"I stopped dropping follow-ups the week I started using it. My voice memos were a graveyard — now they're actual tasks in my board by the time I park."</p>
+          <div style="display:flex;align-items:center;gap:0.75rem;">
+            <div style="width:2.5rem;height:2.5rem;border-radius:50%;background:linear-gradient(135deg,#8b5cf6,#6d28d9);display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:600;">KR</div>
             <div>
-              <h4>Connect your calendar</h4>
-              <p>We read your schedule to understand your rhythm — showings, calls, deadlines, open blocks.</p>
+              <p style="font-weight:600;font-size:0.875rem;">Kira R.</p>
+              <p class="muted" style="font-size:0.75rem;">Top Buyer's Agent, Phoenix</p>
             </div>
           </div>
-          <div class="step">
-            <div class="step-number">2</div>
+        </div>
+        <div class="glass-card" style="border-radius:1rem;padding:1.75rem;">
+          <p style="color:#f0ece6;line-height:1.7;margin-bottom:1.5rem;font-size:0.9375rem;">"I do less admin at 10 PM and still feel more on top of my business. It's like having an assistant who was in the car with me all day."</p>
+          <div style="display:flex;align-items:center;gap:0.75rem;">
+            <div style="width:2.5rem;height:2.5rem;border-radius:50%;background:linear-gradient(135deg,#8b5cf6,#6d28d9);display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:600;">DM</div>
             <div>
-              <h4>Answer daily questions</h4>
-              <p>A short checklist each morning captures what you need, who you're waiting on, and what fell through the cracks.</p>
+              <p style="font-weight:600;font-size:0.875rem;">Dan M.</p>
+              <p class="muted" style="font-size:0.75rem;">Solo Agent, Nashville</p>
             </div>
           </div>
-          <div class="step">
-            <div class="step-number">3</div>
+        </div>
+        <div class="glass-card" style="border-radius:1rem;padding:1.75rem;">
+          <p style="color:#f0ece6;line-height:1.7;margin-bottom:1.5rem;font-size:0.9375rem;">"My voice memos actually turn into tasks now. I can't believe how many calls I was dropping before. I just talk out loud between showings and my board updates itself."</p>
+          <div style="display:flex;align-items:center;gap:0.75rem;">
+            <div style="width:2.5rem;height:2.5rem;border-radius:50%;background:linear-gradient(135deg,#8b5cf6,#6d28d9);display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:600;">LA</div>
             <div>
-              <h4>Your workforce gets to work</h4>
-              <p>Follow-up texts go out. Scheduling conflicts get flagged. Paperwork reminders land before deadlines — not after.</p>
+              <p style="font-weight:600;font-size:0.875rem;">Leila A.</p>
+              <p class="muted" style="font-size:0.75rem;">Buyer &amp; Seller Agent, Atlanta</p>
             </div>
           </div>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <section class="layer" id="cta">
-      <div class="layer-inset">
-        <h2>Five minutes a day. That's the bar.</h2>
-        <p>If the first five minutes of your morning with Doublebook don't make the rest of your day easier, it's not worth the subscription. We think it will be.</p>
-        <a class="button" href="/demo">Start your 7-day free trial</a>
-        <p class="fine">No credit card required. Cancel anytime.</p>
-      </div>
-    </section>
+  <!-- CTA -->
+  <section id="cta" class="dark-section" style="text-align:center;">
+    <div style="max-width:38rem;margin:0 auto;">
+      <div class="badge" style="margin-bottom:1.5rem;">Early Access</div>
+      <h2 style="margin-bottom:1rem;">Stop letting good leads die in your Notes app.</h2>
+      <p class="subhead" style="margin-bottom:2.5rem;">Join agents already speaking their day into a system that keeps up. Get early access — zero setup, no credit card.</p>
+      <form id="cta-form" style="display:flex;flex-direction:column;gap:1rem;max-width:26rem;margin:0 auto 1.25rem;">
+        <input class="tc-input" placeholder="your@email.com" type="email" required>
+        <button class="cta-btn" type="submit" style="width:100%;padding:1rem 2rem;font-size:1.0625rem;">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13.4a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2.69h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.18 6.18l1.28-1.84a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92Z"/></svg>
+          Call Your Agent — Start Speaking Tasks
+        </button>
+      </form>
+      <p style="color:#6b6966;font-size:0.8125rem;">No spam. Unsubscribe anytime. We respect your inbox.</p>
+    </div>
+  </section>
 
-    <footer class="layer">
-      <div class="layer-inset row">
-        <div class="logo"><i class="fa-solid fa-calendar-range"></i> Doublebook</div>
-        <div class="fill"></div>
-        <p>&copy; 2026</p>
+  <footer>
+    <div style="max-width:75rem;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;">
+      <a href="/" style="font-size:1.125rem;font-weight:700;letter-spacing:-0.04em;color:#f0ece6;text-decoration:none;">Doublebook</a>
+      <div style="display:flex;gap:1.5rem;font-size:0.875rem;">
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
       </div>
-    </footer>
-    <script>
-      const button = document.getElementById('features-button');
-      const menu = document.getElementById('features-menu');
-      if (button && menu) {
-        const close = () => (button.setAttribute('aria-expanded', 'false'), menu.classList.remove('open'));
-        button.addEventListener('click', () => {
-          const open = button.getAttribute('aria-expanded') === 'true';
-          button.setAttribute('aria-expanded', String(!open));
-          menu.classList.toggle('open', !open);
-        });
-        document.addEventListener('click', e => !menu.contains(e.target) && close());
-        document.addEventListener('keydown', e => e.key === 'Escape' && close());
-      }
-    </script>
-  </body>
+      <p style="font-size:0.875rem;color:#6b6966;">© 2026 Doublebook. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>window.DB_FORM_ACTION = 'https://formspree.io/f/mkovyybg';</script>
+  <script src="/modal-form.js"></script>
+  <script src="/routes.js"></script>
+</body>
 </html>

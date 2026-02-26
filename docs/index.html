@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Doublebook Docs — Stop Losing Real Estate Documents in Your Inbox</title>
+  <meta name="description" content="Turn every email attachment into a clean, compliant transaction file — automatically. No more downloading, renaming, and re-uploading the same PDFs.">
+  <meta property="og:title" content="Doublebook Docs — Stop Losing Real Estate Documents in Your Inbox">
+  <meta property="og:description" content="Turn every email attachment into a clean, compliant transaction file — automatically.">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📁</text></svg>">
+  <meta name="theme-color" content="#08080a">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    * { -webkit-font-smoothing: antialiased; box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: #08080a; color: #f0ece6; font-family: 'Inter', system-ui, sans-serif; overflow-x: hidden; line-height: 1.6; }
+
+    .accent { color: #fbbf24; }
+    .gradient-text {
+      background: linear-gradient(135deg, #f59e0b, #fbbf24, #fde68a);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .glow-orb {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.08;
+      pointer-events: none;
+    }
+
+    .glass-card {
+      background: rgba(26, 26, 31, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      backdrop-filter: blur(12px);
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.375rem;
+      padding: 0.25rem 0.75rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      background: rgba(245, 158, 11, 0.1);
+      color: #fbbf24;
+      border: 1px solid rgba(245, 158, 11, 0.2);
+    }
+
+    .cta-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.875rem 2rem;
+      background: #f59e0b;
+      color: #08080a;
+      font-weight: 700;
+      font-size: 1rem;
+      font-family: 'Inter', sans-serif;
+      border: none;
+      border-radius: 0.5rem;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .cta-btn:hover { background: #d97706; }
+
+    .ghost-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.875rem 2rem;
+      background: transparent;
+      color: #f0ece6;
+      font-weight: 500;
+      font-size: 1rem;
+      font-family: 'Inter', sans-serif;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 0.5rem;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .ghost-btn:hover { background: rgba(255, 255, 255, 0.05); }
+
+    .feature-icon {
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: 0.625rem;
+      background: rgba(245, 158, 11, 0.1);
+      border: 1px solid rgba(245, 158, 11, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fbbf24;
+      flex-shrink: 0;
+    }
+
+    .tc-input {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 0.5rem;
+      padding: 0.875rem 1rem;
+      color: #f0ece6;
+      font-size: 1rem;
+      font-family: 'Inter', sans-serif;
+      outline: none;
+      width: 100%;
+    }
+    .tc-input::placeholder { color: #6b6966; }
+    .tc-input:focus { border-color: rgba(245, 158, 11, 0.4); }
+
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 50; backdrop-filter: blur(12px); background: rgba(8, 8, 10, 0.8); border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
+    .nav-inner { max-width: 75rem; margin: 0 auto; padding: 1rem 1.5rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+    .nav-links { display: flex; align-items: center; gap: 1.5rem; }
+    .nav-link { font-size: 0.875rem; color: #6b6966; text-decoration: none; transition: color 0.2s; }
+    .nav-link:hover { color: #f0ece6; }
+
+    section { padding: 6rem 1.5rem; }
+    .container { max-width: 64rem; margin: 0 auto; }
+    .container-sm { max-width: 48rem; margin: 0 auto; }
+    .section-header { text-align: center; margin-bottom: 4rem; }
+    .section-header .badge { margin-bottom: 1rem; }
+
+    h1 { font-family: 'DM Serif Display', Georgia, serif !important; font-size: clamp(2.5rem, 6vw, 4.5rem) !important; font-weight: 400 !important; line-height: 1.1 !important; }
+    h2 { font-family: 'DM Serif Display', Georgia, serif !important; font-size: clamp(2rem, 4vw, 3rem) !important; font-weight: 400 !important; line-height: 1.15 !important; }
+    h3 { font-weight: 600 !important; font-size: 1.0625rem !important; }
+
+    .subhead { font-size: 1.125rem; color: #8a8a8a; line-height: 1.6; }
+    .muted { color: #8a8a8a; font-size: 0.875rem; line-height: 1.6; }
+
+    .grid-auto { display: grid; gap: 1.5rem; grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr)); }
+    .grid-2 { display: grid; gap: 1.5rem; grid-template-columns: 1fr 1fr; }
+    @media (max-width: 640px) { .grid-2 { grid-template-columns: 1fr; } }
+
+    .dark-section { background: #0c0c0e; }
+
+    .ineff-row {
+      display: grid;
+      grid-template-columns: 1.5rem 1fr;
+      gap: 0.75rem 1rem;
+      align-items: start;
+      padding: 1rem 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    .ineff-row:last-child { border-bottom: none; }
+
+    footer { padding: 3rem 1.5rem; border-top: 1px solid rgba(255, 255, 255, 0.05); }
+    footer a { color: #6b6966; text-decoration: none; }
+    footer a:hover { color: #f0ece6; }
+  </style>
+</head>
+<body>
+
+  <div class="glow-orb" style="width:600px;height:600px;background:#f59e0b;top:-200px;right:-100px;"></div>
+  <div class="glow-orb" style="width:400px;height:400px;background:#d97706;bottom:20%;left:-100px;"></div>
+
+  <nav>
+    <div class="nav-inner">
+      <a href="/" style="font-size:1.25rem;font-weight:700;letter-spacing:-0.04em;color:#f0ece6;text-decoration:none;">Doublebook</a>
+      <div class="nav-links">
+        <a class="nav-link" href="#problems">Problems</a>
+        <a class="nav-link" href="#solution">Solution</a>
+        <a class="cta-btn" href="#cta" style="padding:0.625rem 1.25rem;font-size:0.875rem;color:#08080a;">Get Early Access</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:8rem 1.5rem 4rem;text-align:center;">
+    <div style="max-width:52rem;margin:0 auto;">
+      <div class="badge" style="margin-bottom:1.5rem;">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        Document Intelligence for Real Estate
+      </div>
+      <h1 style="margin-bottom:1.5rem;">
+        Stop losing documents<br>
+        <span class="gradient-text" style="font-style:italic;">in your inbox.</span>
+      </h1>
+      <p class="subhead" style="max-width:38rem;margin:0 auto 2.5rem;">
+        Turn every email attachment into a clean, compliant transaction file — automatically. No more downloading, renaming, and re-uploading the same PDFs into four different places.
+      </p>
+      <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+        <a class="cta-btn" href="#cta">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          Get Early Access
+        </a>
+        <a class="ghost-btn" href="#problems">See What's Broken</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Problem narrative -->
+  <section id="problems" class="dark-section">
+    <div class="container">
+      <div class="section-header">
+        <div class="badge">The Problem</div>
+        <h2 style="margin-bottom:1rem;">Every deal runs on email.<br>Nothing is actually organized.</h2>
+        <p class="subhead" style="max-width:38rem;margin:0 auto;">Straight from r/realtors, r/PropTech, and r/RealEstateTechnology — agents everywhere describe the same chaos.</p>
+      </div>
+
+      <div class="grid-auto" style="margin-bottom:4rem;">
+        <div class="glass-card" style="border-radius:1rem;padding:1.75rem;display:flex;flex-direction:column;gap:1rem;">
+          <div class="feature-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          </div>
+          <div>
+            <h3 style="margin-bottom:0.5rem;">Manual saving, every time</h3>
+            <p class="muted">Download from Gmail. Rename it. Upload to Drive. Upload to the transaction system. Attach it back into the CRM. Repeat for every offer, addendum, and disclosure on every deal.</p>
+          </div>
+        </div>
+        <div class="glass-card" style="border-radius:1rem;padding:1.75rem;display:flex;flex-direction:column;gap:1rem;">
+          <div class="feature-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M13 2v7h7"/></svg>
+          </div>
+          <div>
+            <h3 style="margin-bottom:0.5rem;">"final_offer2_REALfinal.pdf"</h3>
+            <p class="muted">Agents try naming schemes — they break them under time pressure. When a deal spans months, no one can remember which version was actually signed or which subfolder it ended up in.</p>
+          </div>
+        </div>
+        <div class="glass-card" style="border-radius:1rem;padding:1.75rem;display:flex;flex-direction:column;gap:1rem;">
+          <div class="feature-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M13 6h3a2 2 0 0 1 2 2v7"/><line x1="6" y1="9" x2="6" y2="21"/></svg>
+          </div>
+          <div>
+            <h3 style="margin-bottom:0.5rem;">Same data, typed five times</h3>
+            <p class="muted">Client name, property address, price — entered into MLS, CRM, transaction software, email templates, and a personal spreadsheet. Each copy drifts. Records become inconsistent.</p>
+          </div>
+        </div>
+        <div class="glass-card" style="border-radius:1rem;padding:1.75rem;display:flex;flex-direction:column;gap:1rem;">
+          <div class="feature-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          </div>
+          <div>
+            <h3 style="margin-bottom:0.5rem;">"I think it's in Drive somewhere"</h3>
+            <p class="muted">The anxiety is real. Agents worry a key disclosure or signed addendum is sitting in a spam folder or was never uploaded at all. Buyers call months after closing — and the file has gaps.</p>
+          </div>
+        </div>
+        <div class="glass-card" style="border-radius:1rem;padding:1.75rem;display:flex;flex-direction:column;gap:1rem;">
+          <div class="feature-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          </div>
+          <div>
+            <h3 style="margin-bottom:0.5rem;">Gmail as a transaction system</h3>
+            <p class="muted">Stars, labels, and search queries hold it all together — until one missed reply breaks the whole system. Drive has no enforced structure: anyone can create folders and names, so chaos accumulates.</p>
+          </div>
+        </div>
+        <div class="glass-card" style="border-radius:1rem;padding:1.75rem;display:flex;flex-direction:column;gap:1rem;">
+          <div class="feature-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <div>
+            <h3 style="margin-bottom:0.5rem;">Audit? What audit?</h3>
+            <p class="muted">No clear "final" document. No version history. No consistent retention. When a broker or regulator asks for the complete transaction file, agents are scrambling through old email chains.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 8 inefficiencies -->
+      <div style="max-width:48rem;margin:0 auto;">
+        <h3 style="font-family:'DM Serif Display',serif;font-size:1.5rem;font-weight:400;margin-bottom:2rem;text-align:center;">The 8 inefficiencies that repeat on every deal</h3>
+        <div class="glass-card" style="border-radius:1rem;padding:1.5rem 2rem;">
+          <div class="ineff-row">
+            <span style="color:#f59e0b;font-weight:700;font-size:0.875rem;">1</span>
+            <div><p style="font-weight:600;font-size:0.875rem;margin-bottom:0.125rem;">Manual attachment saving</p><p class="muted">Downloading, renaming, and uploading every offer, disclosure, and addendum from email into folders and transaction tools.</p></div>
+          </div>
+          <div class="ineff-row">
+            <span style="color:#f59e0b;font-weight:700;font-size:0.875rem;">2</span>
+            <div><p style="font-weight:600;font-size:0.875rem;margin-bottom:0.125rem;">Repeated data entry</p><p class="muted">Typing the same client and deal info into MLS, CRM, transaction software, spreadsheets, and email templates.</p></div>
+          </div>
+          <div class="ineff-row">
+            <span style="color:#f59e0b;font-weight:700;font-size:0.875rem;">3</span>
+            <div><p style="font-weight:600;font-size:0.875rem;margin-bottom:0.125rem;">Version confusion</p><p class="muted">Multiple "final" PDFs with no clear single source of truth — no one knows which one was actually signed.</p></div>
+          </div>
+          <div class="ineff-row">
+            <span style="color:#f59e0b;font-weight:700;font-size:0.875rem;">4</span>
+            <div><p style="font-weight:600;font-size:0.875rem;margin-bottom:0.125rem;">Folder sprawl</p><p class="muted">Every agent invents their own structure. Brokerage-wide retrieval becomes guesswork.</p></div>
+          </div>
+          <div class="ineff-row">
+            <span style="color:#f59e0b;font-weight:700;font-size:0.875rem;">5</span>
+            <div><p style="font-weight:600;font-size:0.875rem;margin-bottom:0.125rem;">Search-dependent retrieval</p><p class="muted">Guessing subject lines or filenames in Gmail and Drive when someone needs a document right now.</p></div>
+          </div>
+          <div class="ineff-row">
+            <span style="color:#f59e0b;font-weight:700;font-size:0.875rem;">6</span>
+            <div><p style="font-weight:600;font-size:0.875rem;margin-bottom:0.125rem;">Late-stage document hunts</p><p class="muted">Scrambling at contingencies or close to find missing items that were never properly filed.</p></div>
+          </div>
+          <div class="ineff-row">
+            <span style="color:#f59e0b;font-weight:700;font-size:0.875rem;">7</span>
+            <div><p style="font-weight:600;font-size:0.875rem;margin-bottom:0.125rem;">Fragmented communication history</p><p class="muted">Emails, calls, and documents spread across inbox, phone, MLS, and CRM with no consolidated view.</p></div>
+          </div>
+          <div class="ineff-row">
+            <span style="color:#f59e0b;font-weight:700;font-size:0.875rem;">8</span>
+            <div><p style="font-weight:600;font-size:0.875rem;margin-bottom:0.125rem;">Ad-hoc compliance "systems"</p><p class="muted">Personal hacks — spreadsheets, checklists, starred emails — instead of standardized, auditable workflows.</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Solution -->
+  <section id="solution">
+    <div class="container">
+      <div class="section-header">
+        <div class="badge">The Solution</div>
+        <h2 style="margin-bottom:1rem;">Auto-organized. Audit-ready.<br>Zero extra data entry.</h2>
+        <p class="subhead" style="max-width:38rem;margin:0 auto;">Keep using Gmail, Outlook, Drive, and your CRM. Doublebook sits on top, quietly handling the admin layer you've been doing by hand.</p>
+      </div>
+      <div class="grid-auto">
+        <div class="glass-card" style="border-radius:1rem;padding:1.75rem;display:flex;flex-direction:column;gap:1rem;border-color:rgba(245,158,11,0.12);">
+          <div class="feature-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          </div>
+          <div>
+            <h3 style="margin-bottom:0.5rem;">Email → auto-organized files</h3>
+            <p class="muted">Deal emails are monitored automatically. Attachments are captured the moment they arrive and routed into the correct transaction — without you touching a file.</p>
+          </div>
+        </div>
+        <div class="glass-card" style="border-radius:1rem;padding:1.75rem;display:flex;flex-direction:column;gap:1rem;border-color:rgba(245,158,11,0.12);">
+          <div class="feature-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h18v18H3zM3 9h18M3 15h18M9 3v18"/></svg>
+          </div>
+          <div>
+            <h3 style="margin-bottom:0.5rem;">Consistent folder structure, every deal</h3>
+            <p class="muted">Offers, addenda, disclosures, and closing docs are filed into a standard layout for each property — same names, same order, every time. Every deal looks the same to your broker and auditor.</p>
+          </div>
+        </div>
+        <div class="glass-card" style="border-radius:1rem;padding:1.75rem;display:flex;flex-direction:column;gap:1rem;border-color:rgba(245,158,11,0.12);">
+          <div class="feature-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/></svg>
+          </div>
+          <div>
+            <h3 style="margin-bottom:0.5rem;">Live CRM &amp; MLS sync</h3>
+            <p class="muted">Client, property, and price data from your CRM and MLS populates fields automatically. No more retyping names and addresses across tools. Records stay consistent.</p>
+          </div>
+        </div>
+        <div class="glass-card" style="border-radius:1rem;padding:1.75rem;display:flex;flex-direction:column;gap:1rem;border-color:rgba(245,158,11,0.12);">
+          <div class="feature-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <div>
+            <h3 style="margin-bottom:0.5rem;">Compliance-friendly by design</h3>
+            <p class="muted">Every document gets a timestamp, source email link, and version history. Brokers see a complete, audit-ready file — without chasing agents for missing paperwork before a deadline.</p>
+          </div>
+        </div>
+        <div class="glass-card" style="border-radius:1rem;padding:1.75rem;display:flex;flex-direction:column;gap:1rem;border-color:rgba(245,158,11,0.12);">
+          <div class="feature-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4"/><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <div>
+            <h3 style="margin-bottom:0.5rem;">Missing doc alerts before closing</h3>
+            <p class="muted">Doublebook flags transactions missing required document types before compliance becomes a problem — not after. Every request is logged with a timestamp, not buried in an inbox.</p>
+          </div>
+        </div>
+        <div class="glass-card" style="border-radius:1rem;padding:1.75rem;display:flex;flex-direction:column;gap:1rem;border-color:rgba(245,158,11,0.12);">
+          <div class="feature-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          </div>
+          <div>
+            <h3 style="margin-bottom:0.5rem;">Zero extra tools to learn</h3>
+            <p class="muted">Keep Gmail, Outlook, Drive, Dropbox, your CRM. We add a standardized, searchable, timestamped layer on top — without replacing anything you already use.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Compliance callout -->
+  <section class="dark-section">
+    <div class="container-sm">
+      <div class="section-header">
+        <div class="badge">Compliance &amp; Audit Risk</div>
+        <h2 style="margin-bottom:1rem;">The hidden cost of "I think it's in Drive somewhere."</h2>
+        <p class="subhead" style="max-width:36rem;margin:0 auto;">Document chaos isn't just an inconvenience — it's a liability.</p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:1rem;">
+        <div class="glass-card" style="border-radius:0.75rem;padding:1.25rem 1.5rem;display:flex;gap:1rem;align-items:flex-start;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2" style="flex-shrink:0;margin-top:2px;"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          <div>
+            <p style="font-weight:600;font-size:0.875rem;margin-bottom:0.25rem;">Incomplete transaction files</p>
+            <p class="muted">If a key disclosure or signed addendum lives only in someone's inbox, the brokerage can't prove it was delivered or signed in an audit or dispute.</p>
+          </div>
+        </div>
+        <div class="glass-card" style="border-radius:0.75rem;padding:1.25rem 1.5rem;display:flex;gap:1rem;align-items:flex-start;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2" style="flex-shrink:0;margin-top:2px;"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          <div>
+            <p style="font-weight:600;font-size:0.875rem;margin-bottom:0.25rem;">No clear "final" document</p>
+            <p class="muted">Multiple versions without a designated signed copy make it hard to demonstrate what the parties actually agreed to — in court or in front of a compliance officer.</p>
+          </div>
+        </div>
+        <div class="glass-card" style="border-radius:0.75rem;padding:1.25rem 1.5rem;display:flex;gap:1rem;align-items:flex-start;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2" style="flex-shrink:0;margin-top:2px;"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          <div>
+            <p style="font-weight:600;font-size:0.875rem;margin-bottom:0.25rem;">Inconsistent retention</p>
+            <p class="muted">Some documents in Drive, others in Dropbox, others with the attorney or title company. Retention policies and legal holds can't be applied consistently across a scattered system.</p>
+          </div>
+        </div>
+        <div class="glass-card" style="border-radius:0.75rem;padding:1.25rem 1.5rem;display:flex;gap:1rem;align-items:flex-start;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2" style="flex-shrink:0;margin-top:2px;"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          <div>
+            <p style="font-weight:600;font-size:0.875rem;margin-bottom:0.25rem;">No auditable change history</p>
+            <p class="muted">When changes happen by emailing new PDFs instead of tracked workflows, there's no log of who changed what, when — and that gap shows up badly in disputes.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section>
+    <div class="container">
+      <div class="section-header">
+        <div class="badge">From the Community</div>
+        <h2 style="margin-bottom:1rem;">Real agents. Real chaos.</h2>
+        <p class="muted" style="max-width:36rem;margin:0 auto;">Built directly from what we read in r/realtors, r/RealEstateTechnology, and r/PropTech.</p>
+      </div>
+      <div class="grid-auto">
+        <div class="glass-card" style="border-radius:1rem;padding:1.75rem;">
+          <p style="color:#f0ece6;line-height:1.7;margin-bottom:1.5rem;font-size:0.9375rem;">"I keep important emails starred as a to-do list, then scramble before deadlines to find and file everything. I know there has to be a better way."</p>
+          <div style="display:flex;align-items:center;gap:0.75rem;">
+            <div style="width:2.5rem;height:2.5rem;border-radius:50%;background:linear-gradient(135deg,#f59e0b,#d97706);display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:700;color:#08080a;">JT</div>
+            <div>
+              <p style="font-weight:600;font-size:0.875rem;">Jessica T.</p>
+              <p class="muted" style="font-size:0.75rem;">Buyer's Agent, Chicago</p>
+            </div>
+          </div>
+        </div>
+        <div class="glass-card" style="border-radius:1rem;padding:1.75rem;">
+          <p style="color:#f0ece6;line-height:1.7;margin-bottom:1.5rem;font-size:0.9375rem;">"Buyers called me nine months after closing needing documents. I had to track them down from title and old email chains. That's when I realized my 'system' had real gaps."</p>
+          <div style="display:flex;align-items:center;gap:0.75rem;">
+            <div style="width:2.5rem;height:2.5rem;border-radius:50%;background:linear-gradient(135deg,#f59e0b,#d97706);display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:700;color:#08080a;">MR</div>
+            <div>
+              <p style="font-weight:600;font-size:0.875rem;">Marcus R.</p>
+              <p class="muted" style="font-size:0.75rem;">Solo Agent, Denver</p>
+            </div>
+          </div>
+        </div>
+        <div class="glass-card" style="border-radius:1rem;padding:1.75rem;">
+          <p style="color:#f0ece6;line-height:1.7;margin-bottom:1.5rem;font-size:0.9375rem;">"If you don't put it in the exact right folder it's basically lost. And under deadline pressure? Nobody's putting it in the exact right folder."</p>
+          <div style="display:flex;align-items:center;gap:0.75rem;">
+            <div style="width:2.5rem;height:2.5rem;border-radius:50%;background:linear-gradient(135deg,#f59e0b,#d97706);display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:700;color:#08080a;">AL</div>
+            <div>
+              <p style="font-weight:600;font-size:0.875rem;">Andrea L.</p>
+              <p class="muted" style="font-size:0.75rem;">Team Lead, Austin</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section id="cta" class="dark-section" style="text-align:center;">
+    <div style="max-width:38rem;margin:0 auto;">
+      <div class="badge" style="margin-bottom:1.5rem;">Early Access</div>
+      <h2 style="margin-bottom:1rem;">Every transaction, audit-ready by default.</h2>
+      <p class="subhead" style="margin-bottom:2.5rem;">Stop manually saving, renaming, and re-uploading. Get early access and let Doublebook handle the document layer — automatically.</p>
+      <form id="cta-form" style="display:flex;flex-direction:column;gap:1rem;max-width:26rem;margin:0 auto 1.25rem;">
+        <input class="tc-input" placeholder="your@email.com" type="email" required>
+        <button class="cta-btn" type="submit" style="width:100%;padding:1rem 2rem;font-size:1.0625rem;">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          Get Early Access
+        </button>
+      </form>
+      <p style="color:#6b6966;font-size:0.8125rem;">No spam. Unsubscribe anytime. We respect your inbox.</p>
+    </div>
+  </section>
+
+  <footer>
+    <div style="max-width:75rem;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;">
+      <a href="/" style="font-size:1.125rem;font-weight:700;letter-spacing:-0.04em;color:#f0ece6;text-decoration:none;">Doublebook</a>
+      <div style="display:flex;gap:1.5rem;font-size:0.875rem;">
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+      </div>
+      <p style="font-size:0.875rem;color:#6b6966;">© 2026 Doublebook. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>window.DB_FORM_ACTION = 'https://formspree.io/f/mgolddyw';</script>
+  <script src="/modal-form.js"></script>
+  <script src="/routes.js"></script>
+</body>
+</html>
