@@ -1,5 +1,6 @@
 (function () {
   const routes = [
+    { label: 'Haven', href: '/haven/' },
     { label: 'Assistant', href: '/assistant/' },
     { label: 'RealtorBatch AI', href: '/email/' },
     { label: 'Overnight', href: '/overnight/' },

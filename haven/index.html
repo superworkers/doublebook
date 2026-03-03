@@ -1,0 +1,1660 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Haven | The Assistant That Never Sleeps</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-cream: #F7F5F0;
+            --color-warm-white: #FDFCFA;
+            --color-forest: #1C2C1F;
+            --color-forest-light: #2A3F2E;
+            --color-sage: #8B9A7E;
+            --color-gold: #C4A265;
+            --color-gold-muted: #A89068;
+            --color-charcoal: #2C2C2C;
+            --color-text: #1A1A1A;
+            --color-text-muted: #6B6B6B;
+            --font-display: 'Cormorant Garamond', Georgia, serif;
+            --font-body: 'Outfit', -apple-system, sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            -webkit-text-size-adjust: 100%;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--color-cream);
+            color: var(--color-text);
+            font-size: 16px;
+            line-height: 1.6;
+            font-weight: 300;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        ::selection {
+            background: var(--color-gold);
+            color: white;
+        }
+
+        /* Typography */
+        h1, h2, h3 {
+            font-family: var(--font-display);
+            font-weight: 400;
+            letter-spacing: -0.02em;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 24px 48px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            mix-blend-mode: difference;
+        }
+
+        .logo {
+            font-family: var(--font-display);
+            font-size: 1.75rem;
+            font-weight: 500;
+            color: white;
+            text-decoration: none;
+            letter-spacing: 0.05em;
+        }
+
+        .nav-cta {
+            color: white;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 400;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            padding: 12px 0;
+            position: relative;
+        }
+
+        .nav-cta::after {
+            content: '';
+            position: absolute;
+            bottom: 8px;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: white;
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .nav-cta:hover::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        /* Hero */
+        .hero {
+            min-height: 100vh;
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            background: var(--color-forest);
+            position: relative;
+        }
+
+        .hero-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 120px 80px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-eyebrow {
+            font-size: 0.75rem;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: var(--color-gold);
+            margin-bottom: 32px;
+            font-weight: 400;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeUp 1s 0.2s forwards;
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 6vw, 5.5rem);
+            color: var(--color-cream);
+            line-height: 1.05;
+            margin-bottom: 32px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeUp 1s 0.4s forwards;
+        }
+
+        .hero h1 em {
+            font-style: italic;
+            color: var(--color-gold);
+        }
+
+        .hero-text {
+            font-size: 1.1rem;
+            color: rgba(247, 245, 240, 0.7);
+            max-width: 400px;
+            margin-bottom: 48px;
+            line-height: 1.8;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeUp 1s 0.6s forwards;
+        }
+
+        .hero-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 16px;
+            background: var(--color-gold);
+            color: var(--color-forest);
+            padding: 20px 40px;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeUp 1s 0.8s forwards;
+            align-self: flex-start;
+        }
+
+        .hero-cta:hover {
+            background: var(--color-cream);
+            gap: 24px;
+        }
+
+        .hero-cta svg {
+            width: 20px;
+            height: 20px;
+            transition: transform 0.4s;
+        }
+
+        .hero-cta:hover svg {
+            transform: translateX(4px);
+        }
+
+        .hero-image {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            transform: scale(1.1);
+            animation: heroImageReveal 1.5s 0.3s forwards;
+        }
+
+        .hero-image::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, var(--color-forest) 0%, transparent 40%);
+            z-index: 1;
+        }
+
+        .hero-scroll {
+            position: absolute;
+            bottom: 48px;
+            left: 80px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            color: rgba(247, 245, 240, 0.5);
+            font-size: 0.75rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+        }
+
+        .hero-scroll span {
+            width: 48px;
+            height: 1px;
+            background: rgba(247, 245, 240, 0.3);
+        }
+
+        @keyframes fadeUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes heroImageReveal {
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Stats Bar */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            background: var(--color-charcoal);
+        }
+
+        .stat {
+            padding: 64px 48px;
+            text-align: center;
+            border-right: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .stat:last-child {
+            border-right: none;
+        }
+
+        .stat-number {
+            font-family: var(--font-display);
+            font-size: 3.5rem;
+            color: var(--color-gold);
+            line-height: 1;
+            margin-bottom: 12px;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.5);
+        }
+
+        /* Problem Section */
+        .problem {
+            padding: 160px 0;
+            background: var(--color-warm-white);
+        }
+
+        .problem .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 80px;
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 120px;
+            align-items: start;
+        }
+
+        .problem-header {
+            position: sticky;
+            top: 120px;
+        }
+
+        .section-label {
+            font-size: 0.75rem;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: var(--color-gold-muted);
+            margin-bottom: 24px;
+            font-weight: 500;
+        }
+
+        .problem h2 {
+            font-size: clamp(2.5rem, 4vw, 3.5rem);
+            line-height: 1.15;
+            margin-bottom: 24px;
+        }
+
+        .problem-intro {
+            font-size: 1.1rem;
+            color: var(--color-text-muted);
+            line-height: 1.9;
+        }
+
+        .problem-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2px;
+            background: var(--color-cream);
+        }
+
+        .problem-card {
+            background: var(--color-warm-white);
+            padding: 48px;
+            transition: background 0.3s;
+        }
+
+        .problem-card:hover {
+            background: var(--color-cream);
+        }
+
+        .problem-card h4 {
+            font-family: var(--font-display);
+            font-size: 1.4rem;
+            margin-bottom: 12px;
+            font-weight: 500;
+        }
+
+        .problem-card p {
+            font-size: 0.95rem;
+            color: var(--color-text-muted);
+            line-height: 1.7;
+        }
+
+        /* Features */
+        .features {
+            background: var(--color-cream);
+        }
+
+        .feature {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            min-height: 100vh;
+        }
+
+        .feature:nth-child(even) {
+            direction: rtl;
+        }
+
+        .feature:nth-child(even) > * {
+            direction: ltr;
+        }
+
+        .feature-image {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .feature:hover .feature-image img {
+            transform: scale(1.03);
+        }
+
+        .feature-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 80px 100px;
+            background: var(--color-warm-white);
+        }
+
+        .feature:nth-child(even) .feature-content {
+            background: var(--color-cream);
+        }
+
+        .feature-number {
+            font-family: var(--font-display);
+            font-size: 0.9rem;
+            color: var(--color-gold-muted);
+            margin-bottom: 32px;
+            letter-spacing: 0.1em;
+        }
+
+        .feature h3 {
+            font-size: clamp(2rem, 3.5vw, 3rem);
+            line-height: 1.15;
+            margin-bottom: 24px;
+        }
+
+        .feature-text {
+            font-size: 1.05rem;
+            color: var(--color-text-muted);
+            line-height: 1.9;
+            margin-bottom: 40px;
+            max-width: 480px;
+        }
+
+        .feature-list {
+            list-style: none;
+            border-top: 1px solid rgba(0,0,0,0.08);
+            padding-top: 32px;
+        }
+
+        .feature-list li {
+            padding: 14px 0;
+            font-size: 0.95rem;
+            color: var(--color-text);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .feature-list li::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background: var(--color-gold);
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        /* Trust Section */
+        .trust {
+            background: var(--color-forest);
+            padding: 160px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .trust::before {
+            content: '';
+            position: absolute;
+            top: -200px;
+            right: -200px;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(196, 162, 101, 0.08) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .trust .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 80px;
+        }
+
+        .trust-header {
+            text-align: center;
+            margin-bottom: 100px;
+        }
+
+        .trust-header .section-label {
+            color: var(--color-gold);
+        }
+
+        .trust h2 {
+            font-size: clamp(2.5rem, 4vw, 3.5rem);
+            color: var(--color-cream);
+            margin-bottom: 20px;
+        }
+
+        .trust-subtitle {
+            font-size: 1.15rem;
+            color: rgba(247, 245, 240, 0.6);
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .trust-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1px;
+            background: rgba(255,255,255,0.1);
+        }
+
+        .trust-card {
+            background: var(--color-forest);
+            padding: 48px 40px;
+            transition: background 0.3s;
+        }
+
+        .trust-card:hover {
+            background: var(--color-forest-light);
+        }
+
+        .trust-card h4 {
+            font-family: var(--font-display);
+            font-size: 1.35rem;
+            color: var(--color-cream);
+            margin-bottom: 16px;
+            font-weight: 400;
+        }
+
+        .trust-card p {
+            font-size: 0.9rem;
+            color: rgba(247, 245, 240, 0.6);
+            line-height: 1.7;
+        }
+
+        /* Transformation */
+        .transformation {
+            padding: 160px 0;
+            background: var(--color-warm-white);
+        }
+
+        .transformation .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 80px;
+        }
+
+        .transformation-header {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .transformation h2 {
+            font-size: clamp(2.5rem, 4vw, 3.5rem);
+            margin-bottom: 16px;
+        }
+
+        .transformation-subtitle {
+            font-size: 1.1rem;
+            color: var(--color-text-muted);
+        }
+
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 48px;
+        }
+
+        .comparison-col {
+            padding: 56px;
+            border-radius: 2px;
+        }
+
+        .comparison-col.before {
+            background: rgba(0,0,0,0.03);
+        }
+
+        .comparison-col.after {
+            background: var(--color-forest);
+        }
+
+        .comparison-col h4 {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            margin-bottom: 32px;
+        }
+
+        .comparison-col.before h4 {
+            color: var(--color-text-muted);
+        }
+
+        .comparison-col.after h4 {
+            color: var(--color-gold);
+        }
+
+        .comparison-col ul {
+            list-style: none;
+        }
+
+        .comparison-col li {
+            padding: 16px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.06);
+            font-size: 0.95rem;
+        }
+
+        .comparison-col.before li {
+            color: var(--color-text-muted);
+        }
+
+        .comparison-col.after li {
+            color: rgba(247, 245, 240, 0.8);
+            border-color: rgba(255,255,255,0.1);
+        }
+
+        .comparison-col li:last-child {
+            border-bottom: none;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            min-height: 100vh;
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            background: var(--color-cream);
+        }
+
+        .cta-image {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .cta-image::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(0deg, rgba(28, 44, 31, 0.3) 0%, transparent 50%);
+        }
+
+        .cta-form-wrapper {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 80px;
+            background: var(--color-warm-white);
+        }
+
+        .cta-form-wrapper .section-label {
+            margin-bottom: 24px;
+        }
+
+        .cta-form-wrapper h2 {
+            font-size: clamp(2rem, 3vw, 2.75rem);
+            margin-bottom: 16px;
+        }
+
+        .cta-subtitle {
+            font-size: 1rem;
+            color: var(--color-text-muted);
+            margin-bottom: 48px;
+            line-height: 1.8;
+        }
+
+        .waitlist-form {
+            max-width: 400px;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.75rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--color-text-muted);
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 18px 20px;
+            border: 1px solid rgba(0,0,0,0.1);
+            background: var(--color-cream);
+            font-size: 1rem;
+            font-family: var(--font-body);
+            transition: all 0.3s;
+            color: var(--color-text);
+            border-radius: 0;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+        }
+
+        .form-group select {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236B6B6B' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 20px center;
+            padding-right: 48px;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--color-gold);
+            background: var(--color-warm-white);
+        }
+
+        .form-group input::placeholder {
+            color: rgba(0,0,0,0.3);
+        }
+
+        .submit-btn {
+            width: 100%;
+            background: var(--color-forest);
+            color: var(--color-cream);
+            padding: 20px 40px;
+            border: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.4s;
+            font-family: var(--font-body);
+        }
+
+        .submit-btn:hover {
+            background: var(--color-charcoal);
+        }
+
+        .form-note {
+            font-size: 0.8rem;
+            color: var(--color-text-muted);
+            margin-top: 20px;
+        }
+
+        /* FAQ */
+        .faq {
+            padding: 160px 0;
+            background: var(--color-cream);
+        }
+
+        .faq .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 80px;
+        }
+
+        .faq-header {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .faq h2 {
+            font-size: clamp(2rem, 3vw, 2.75rem);
+        }
+
+        .faq-item {
+            border-bottom: 1px solid rgba(0,0,0,0.08);
+        }
+
+        .faq-question {
+            padding: 32px 0;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: var(--font-display);
+            font-size: 1.25rem;
+            color: var(--color-text);
+            transition: color 0.3s;
+        }
+
+        .faq-question:hover {
+            color: var(--color-gold-muted);
+        }
+
+        .faq-icon {
+            width: 24px;
+            height: 24px;
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .faq-icon::before,
+        .faq-icon::after {
+            content: '';
+            position: absolute;
+            background: var(--color-gold);
+            transition: transform 0.3s;
+        }
+
+        .faq-icon::before {
+            width: 100%;
+            height: 1px;
+            top: 50%;
+        }
+
+        .faq-icon::after {
+            width: 1px;
+            height: 100%;
+            left: 50%;
+        }
+
+        .faq-item.active .faq-icon::after {
+            transform: rotate(90deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 300px;
+        }
+
+        .faq-answer p {
+            padding-bottom: 32px;
+            font-size: 0.95rem;
+            color: var(--color-text-muted);
+            line-height: 1.8;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--color-charcoal);
+            padding: 80px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        footer .logo {
+            color: var(--color-cream);
+        }
+
+        footer p {
+            color: rgba(255,255,255,0.4);
+            font-size: 0.85rem;
+        }
+
+        /* Responsive - Tablet */
+        @media (max-width: 1024px) {
+            nav {
+                padding: 20px 32px;
+            }
+
+            .hero {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-content {
+                padding: 140px 48px 80px;
+            }
+
+            .hero-image {
+                height: 50vh;
+            }
+
+            .hero-image::before {
+                background: linear-gradient(180deg, var(--color-forest) 0%, transparent 50%);
+            }
+
+            .hero-scroll {
+                display: none;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .stat {
+                border-right: none;
+                border-bottom: 1px solid rgba(255,255,255,0.1);
+            }
+
+            .problem .container {
+                grid-template-columns: 1fr;
+                gap: 60px;
+                padding: 0 48px;
+            }
+
+            .problem-header {
+                position: static;
+            }
+
+            .problem-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .feature {
+                grid-template-columns: 1fr;
+                min-height: auto;
+            }
+
+            .feature:nth-child(even) {
+                direction: ltr;
+            }
+
+            .feature-image {
+                height: 50vh;
+            }
+
+            .feature-content {
+                padding: 60px 48px;
+            }
+
+            .trust .container {
+                padding: 0 48px;
+            }
+
+            .trust-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .transformation .container {
+                padding: 0 48px;
+            }
+
+            .comparison {
+                grid-template-columns: 1fr;
+            }
+
+            .cta-section {
+                grid-template-columns: 1fr;
+            }
+
+            .cta-image {
+                height: 40vh;
+            }
+
+            .cta-form-wrapper {
+                padding: 60px 48px;
+            }
+
+            .faq .container {
+                padding: 0 48px;
+            }
+
+            footer {
+                flex-direction: column;
+                gap: 24px;
+                text-align: center;
+                padding: 60px 48px;
+            }
+        }
+
+        /* Responsive - Small Tablet */
+        @media (max-width: 640px) {
+            .trust-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stat {
+                padding: 40px 32px;
+            }
+
+            .stat-number {
+                font-size: 2.5rem;
+            }
+        }
+
+        /* Responsive - Mobile */
+        @media (max-width: 480px) {
+            body {
+                font-size: 15px;
+            }
+
+            nav {
+                padding: 16px 20px;
+            }
+
+            .logo {
+                font-size: 1.4rem;
+            }
+
+            .nav-cta {
+                font-size: 0.75rem;
+                letter-spacing: 0.1em;
+            }
+
+            .hero-content {
+                padding: 100px 24px 60px;
+            }
+
+            .hero-eyebrow {
+                font-size: 0.65rem;
+                margin-bottom: 20px;
+            }
+
+            .hero h1 {
+                font-size: 2.25rem;
+                margin-bottom: 20px;
+            }
+
+            .hero-text {
+                font-size: 1rem;
+                margin-bottom: 32px;
+            }
+
+            .hero-cta {
+                padding: 16px 28px;
+                font-size: 0.8rem;
+                width: 100%;
+                justify-content: center;
+            }
+
+            .hero-image {
+                height: 35vh;
+                min-height: 250px;
+            }
+
+            .stat {
+                padding: 32px 24px;
+            }
+
+            .stat-number {
+                font-size: 2rem;
+            }
+
+            .stat-label {
+                font-size: 0.7rem;
+            }
+
+            .problem {
+                padding: 80px 0;
+            }
+
+            .problem .container {
+                padding: 0 24px;
+                gap: 40px;
+            }
+
+            .section-label {
+                font-size: 0.65rem;
+            }
+
+            .problem h2 {
+                font-size: 1.75rem;
+            }
+
+            .problem-intro {
+                font-size: 1rem;
+            }
+
+            .problem-card {
+                padding: 28px 24px;
+            }
+
+            .problem-card h4 {
+                font-size: 1.2rem;
+            }
+
+            .problem-card p {
+                font-size: 0.9rem;
+            }
+
+            .feature-image {
+                height: 40vh;
+                min-height: 280px;
+            }
+
+            .feature-content {
+                padding: 48px 24px;
+            }
+
+            .feature-number {
+                font-size: 0.8rem;
+                margin-bottom: 20px;
+            }
+
+            .feature h3 {
+                font-size: 1.6rem;
+                margin-bottom: 16px;
+            }
+
+            .feature-text {
+                font-size: 0.95rem;
+                margin-bottom: 28px;
+            }
+
+            .feature-list {
+                padding-top: 24px;
+            }
+
+            .feature-list li {
+                padding: 10px 0;
+                font-size: 0.9rem;
+                gap: 12px;
+            }
+
+            .trust {
+                padding: 80px 0;
+            }
+
+            .trust .container {
+                padding: 0 24px;
+            }
+
+            .trust-header {
+                margin-bottom: 48px;
+            }
+
+            .trust h2 {
+                font-size: 1.75rem;
+            }
+
+            .trust-subtitle {
+                font-size: 1rem;
+            }
+
+            .trust-card {
+                padding: 32px 24px;
+            }
+
+            .trust-card h4 {
+                font-size: 1.15rem;
+            }
+
+            .trust-card p {
+                font-size: 0.85rem;
+            }
+
+            .transformation {
+                padding: 80px 0;
+            }
+
+            .transformation .container {
+                padding: 0 24px;
+            }
+
+            .transformation-header {
+                margin-bottom: 48px;
+            }
+
+            .transformation h2 {
+                font-size: 1.75rem;
+            }
+
+            .transformation-subtitle {
+                font-size: 1rem;
+            }
+
+            .comparison {
+                gap: 24px;
+            }
+
+            .comparison-col {
+                padding: 32px 24px;
+            }
+
+            .comparison-col h4 {
+                font-size: 1.25rem;
+                margin-bottom: 24px;
+            }
+
+            .comparison-col li {
+                padding: 12px 0;
+                font-size: 0.9rem;
+            }
+
+            .cta-image {
+                height: 35vh;
+                min-height: 250px;
+            }
+
+            .cta-form-wrapper {
+                padding: 48px 24px;
+            }
+
+            .cta-form-wrapper h2 {
+                font-size: 1.6rem;
+            }
+
+            .cta-subtitle {
+                font-size: 0.95rem;
+                margin-bottom: 32px;
+            }
+
+            .waitlist-form {
+                max-width: 100%;
+            }
+
+            .form-group {
+                margin-bottom: 20px;
+            }
+
+            .form-group label {
+                font-size: 0.7rem;
+            }
+
+            .form-group input,
+            .form-group select {
+                padding: 16px;
+                font-size: 16px; /* Prevents iOS zoom */
+            }
+
+            .form-group select {
+                background-position: right 16px center;
+                padding-right: 40px;
+            }
+
+            .submit-btn {
+                padding: 18px 32px;
+                font-size: 0.8rem;
+            }
+
+            .form-note {
+                font-size: 0.75rem;
+            }
+
+            .faq {
+                padding: 80px 0;
+            }
+
+            .faq .container {
+                padding: 0 24px;
+            }
+
+            .faq-header {
+                margin-bottom: 48px;
+            }
+
+            .faq h2 {
+                font-size: 1.6rem;
+            }
+
+            .faq-question {
+                padding: 24px 0;
+                font-size: 1.05rem;
+                gap: 16px;
+            }
+
+            .faq-icon {
+                width: 20px;
+                height: 20px;
+            }
+
+            .faq-answer p {
+                padding-bottom: 24px;
+                font-size: 0.9rem;
+            }
+
+            footer {
+                padding: 48px 24px;
+            }
+
+            footer .logo {
+                font-size: 1.3rem;
+            }
+
+            footer p {
+                font-size: 0.8rem;
+            }
+        }
+
+        /* Touch-friendly improvements */
+        @media (hover: none) and (pointer: coarse) {
+            .hero-cta:hover {
+                gap: 16px;
+            }
+
+            .feature:hover .feature-image img {
+                transform: none;
+            }
+
+            .problem-card:hover {
+                background: var(--color-warm-white);
+            }
+
+            .trust-card:hover {
+                background: var(--color-forest);
+            }
+
+            .faq-question:hover {
+                color: var(--color-text);
+            }
+        }
+
+        /* Scroll Animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="#" class="logo">Haven</a>
+        <a href="#waitlist" class="nav-cta">Request Access</a>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-content">
+            <p class="hero-eyebrow">For agents who refuse to drop the ball</p>
+            <h1>The assistant that <em>never</em> sleeps</h1>
+            <p class="hero-text">AI-powered follow-up, nurture, and admin that runs quietly in the background. So you can focus on what actually closes deals.</p>
+            <a href="#waitlist" class="hero-cta">
+                Join the Waitlist
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+            </a>
+        </div>
+        <div class="hero-image">
+            <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1400&q=80" alt="Luxury modern home">
+        </div>
+        <div class="hero-scroll">
+            <span></span>
+            Scroll to explore
+        </div>
+    </section>
+
+    <!-- Stats -->
+    <section class="stats">
+        <div class="stat">
+            <div class="stat-number">78%</div>
+            <div class="stat-label">of leads go cold from slow follow-up</div>
+        </div>
+        <div class="stat">
+            <div class="stat-number">5 min</div>
+            <div class="stat-label">response time increases conversion 10x</div>
+        </div>
+        <div class="stat">
+            <div class="stat-number">68%</div>
+            <div class="stat-label">of business comes from repeat + referral</div>
+        </div>
+    </section>
+
+    <!-- Problem Section -->
+    <section class="problem">
+        <div class="container">
+            <div class="problem-header reveal">
+                <p class="section-label">The Reality</p>
+                <h2>You know you're leaving money on the table</h2>
+                <p class="problem-intro">It's not that you don't care. It's that there are only so many hours. And the follow-up, the nurture, the admin - it always falls to the bottom.</p>
+            </div>
+            <div class="problem-grid">
+                <div class="problem-card reveal">
+                    <h4>Leads slip through</h4>
+                    <p>By the time you respond, they've already talked to three other agents.</p>
+                </div>
+                <div class="problem-card reveal">
+                    <h4>Conversations scatter</h4>
+                    <p>Text, email, Instagram, Facebook. You can't remember where you left off.</p>
+                </div>
+                <div class="problem-card reveal">
+                    <h4>Your CRM is chaos</h4>
+                    <p>Duplicates, outdated tags, stages that meant something six months ago.</p>
+                </div>
+                <div class="problem-card reveal">
+                    <h4>Past clients drift</h4>
+                    <p>You haven't talked to half of them since handing over the keys.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section class="features">
+        <div class="feature">
+            <div class="feature-image">
+                <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Modern architecture">
+            </div>
+            <div class="feature-content reveal">
+                <p class="feature-number">01</p>
+                <h3>Every lead gets a response. Instantly.</h3>
+                <p class="feature-text">New lead at 10:47 PM? Your assistant responds in under a minute, in your voice, asking the right questions. No more "sorry I missed you" regrets.</p>
+                <ul class="feature-list">
+                    <li>Instant personalized responses via text and email</li>
+                    <li>Every interaction logged with notes and next steps</li>
+                    <li>Daily priority list of who needs your attention</li>
+                    <li>Smart follow-ups when leads go quiet</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="feature">
+            <div class="feature-image">
+                <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Clean workspace">
+            </div>
+            <div class="feature-content reveal">
+                <p class="feature-number">02</p>
+                <h3>Your CRM, finally working for you</h3>
+                <p class="feature-text">Your database isn't just messy. It's costing you money. Your assistant quietly cleans house in the background, so you can trust what you see.</p>
+                <ul class="feature-list">
+                    <li>Automatic deduplication and record merging</li>
+                    <li>Standardized tags and meaningful segments</li>
+                    <li>A pipeline that reflects reality</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="feature">
+            <div class="feature-image">
+                <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Luxury interior">
+            </div>
+            <div class="feature-content reveal">
+                <p class="feature-number">03</p>
+                <h3>Past clients stay close</h3>
+                <p class="feature-text">60-80% of your business should come from repeat and referral. Your assistant runs thoughtful nurture in the background, so you stay top of mind without being salesy.</p>
+                <ul class="feature-list">
+                    <li>Birthday and home anniversary tracking</li>
+                    <li>Quarterly check-ins that feel personal</li>
+                    <li>Market updates for their neighborhood</li>
+                    <li>Referral prompts at the right moments</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trust Section -->
+    <section class="trust">
+        <div class="container">
+            <div class="trust-header reveal">
+                <p class="section-label">Your Reputation, Protected</p>
+                <h2>You stay in control</h2>
+                <p class="trust-subtitle">Nothing goes out without your blessing. Your assistant works with you, not around you.</p>
+            </div>
+            <div class="trust-grid">
+                <div class="trust-card reveal">
+                    <h4>You approve everything</h4>
+                    <p>Review individual messages, batch-approve by type, or auto-send once you trust it.</p>
+                </div>
+                <div class="trust-card reveal">
+                    <h4>Learns your voice</h4>
+                    <p>Your phrases. Your market knowledge. Your way of connecting with clients.</p>
+                </div>
+                <div class="trust-card reveal">
+                    <h4>Built-in guardrails</h4>
+                    <p>Fair housing compliance. No hallucinations. No embarrassing AI moments.</p>
+                </div>
+                <div class="trust-card reveal">
+                    <h4>Full transparency</h4>
+                    <p>See everything sent, queued, and waiting for review. Nothing in the dark.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Transformation -->
+    <section class="transformation">
+        <div class="container">
+            <div class="transformation-header reveal">
+                <p class="section-label">The Shift</p>
+                <h2>From operator to CEO</h2>
+                <p class="transformation-subtitle">Stop managing chaos. Start running your business.</p>
+            </div>
+            <div class="comparison reveal">
+                <div class="comparison-col before">
+                    <h4>Before</h4>
+                    <ul>
+                        <li>Leads slip through because you can't respond fast enough</li>
+                        <li>CRM is a graveyard of duplicates</li>
+                        <li>Past-client nurture lives on a to-do list</li>
+                        <li>Generic drips that get ignored</li>
+                        <li>Guilt about people you've ghosted</li>
+                    </ul>
+                </div>
+                <div class="comparison-col after">
+                    <h4>After</h4>
+                    <ul>
+                        <li>Every lead gets a response in minutes</li>
+                        <li>Clean, organized database you trust</li>
+                        <li>Sphere nurture runs automatically</li>
+                        <li>On-brand messages that get responses</li>
+                        <li>Confidence no one is falling through</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section" id="waitlist">
+        <div class="cta-image">
+            <img src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Modern home exterior">
+        </div>
+        <div class="cta-form-wrapper">
+            <p class="section-label">Early Access</p>
+            <h2>Stop leaving money on the table</h2>
+            <p class="cta-subtitle">We're opening early access to a small group of founding members. Priority access, locked-in pricing, and a seat at the table as we build this together.</p>
+            <form class="waitlist-form" action="https://formspree.io/f/xvzbepbg" method="POST">
+                <input type="hidden" name="_subject" value="New Haven Waitlist Signup">
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" name="name" placeholder="Jane Smith" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" placeholder="jane@example.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="brokerage">Brokerage</label>
+                    <input type="text" id="brokerage" name="brokerage" placeholder="Keller Williams, eXp, Compass...">
+                </div>
+                <div class="form-group">
+                    <label for="production">Annual Transactions</label>
+                    <select id="production" name="production">
+                        <option value="">Select range</option>
+                        <option value="1-10">1-10 transactions</option>
+                        <option value="11-25">11-25 transactions</option>
+                        <option value="26-50">26-50 transactions</option>
+                        <option value="50+">50+ transactions</option>
+                    </select>
+                </div>
+                <button type="submit" class="submit-btn">Request Early Access</button>
+                <p class="form-note">No spam. We'll only email about launch updates.</p>
+            </form>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="faq">
+        <div class="container">
+            <div class="faq-header reveal">
+                <p class="section-label">Questions</p>
+                <h2>What you're probably wondering</h2>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">
+                    Is this replacing my transaction coordinator?
+                    <div class="faq-icon"></div>
+                </div>
+                <div class="faq-answer">
+                    <p>No. This handles everything before and after contract-to-close: lead follow-up, prospect nurturing, database management, sphere nurture, and scheduling. Your TC handles the transaction. Your AI assistant handles the rest.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">
+                    Which CRMs do you integrate with?
+                    <div class="faq-icon"></div>
+                </div>
+                <div class="faq-answer">
+                    <p>We're building integrations with the most widely-used real estate CRMs first, including Follow Up Boss, kvCORE, Sierra Interactive, LionDesk, and others. We'll confirm compatibility during onboarding.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">
+                    Will it sound like me or like a robot?
+                    <div class="faq-icon"></div>
+                </div>
+                <div class="faq-answer">
+                    <p>Like you. During onboarding, we learn your voice, your phrases, your tone, and your texting style. The assistant drafts communications that sound like you wrote them. And you can always edit before anything sends.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">
+                    Is my data safe?
+                    <div class="faq-icon"></div>
+                </div>
+                <div class="faq-answer">
+                    <p>Yes. Your client data stays yours. We use enterprise-grade encryption, strict access controls, and never sell or share your information.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">
+                    When does it launch?
+                    <div class="faq-icon"></div>
+                </div>
+                <div class="faq-answer">
+                    <p>We're opening early access to founding members within the coming months. Join the waitlist to be first in line.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <a href="#" class="logo">Haven</a>
+        <p>&copy; 2025 Haven. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // FAQ
+        document.querySelectorAll('.faq-question').forEach(q => {
+            q.addEventListener('click', () => {
+                const item = q.parentElement;
+                const wasActive = item.classList.contains('active');
+                document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
+                if (!wasActive) item.classList.add('active');
+            });
+        });
+
+        // Scroll reveal
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -80px 0px' });
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) target.scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+
+        // Form - AJAX submission to Formspree
+        document.querySelector('.waitlist-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const btn = this.querySelector('button');
+            const form = this;
+
+            btn.textContent = 'Sending...';
+            btn.disabled = true;
+
+            try {
+                const response = await fetch(form.action, {
+                    method: 'POST',
+                    body: new FormData(form),
+                    headers: { 'Accept': 'application/json' }
+                });
+
+                if (response.ok) {
+                    btn.textContent = "You're on the list";
+                    btn.style.background = '#2A3F2E';
+                    form.reset();
+                } else {
+                    btn.textContent = 'Something went wrong';
+                    btn.style.background = '#8B0000';
+                    setTimeout(() => {
+                        btn.textContent = 'Request Early Access';
+                        btn.style.background = '';
+                        btn.disabled = false;
+                    }, 3000);
+                }
+            } catch (error) {
+                btn.textContent = 'Something went wrong';
+                btn.style.background = '#8B0000';
+                setTimeout(() => {
+                    btn.textContent = 'Request Early Access';
+                    btn.style.background = '';
+                    btn.disabled = false;
+                }, 3000);
+            }
+        });
+    </script>
+</body>
+</html>
